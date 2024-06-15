@@ -1,8 +1,8 @@
 class Pair{
-    int first;
+    double first;
     int second;
     int third;
-    public Pair(int first,int second,int third){
+    public Pair(double first,int second,int third){
         this.first=first;
         this.second=second;
         this.third=third;
@@ -11,7 +11,7 @@ class Pair{
 class Solution {
     public int[][] kClosest(int[][] points, int k) {
         int n=points.length;
-        PriorityQueue<Pair> pq=new  PriorityQueue<>((x,y)->y.first-x.first);
+        PriorityQueue<Pair> pq=new  PriorityQueue<>((x, y) -> Double.compare(y.first, x.first));
         for(int i=0;i<n;i++){
             int x=points[i][0];
             int y=points[i][1];
