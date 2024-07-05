@@ -1,11 +1,11 @@
 class Solution {
     public long minimumTime(int[] time, int totalTrips) {
         long s=1;
-        Long m=Long.MAX_VALUE;
-        for(int i=0;i<time.length;i++){
-            m=Math.min(m,time[i]);
-        }
-        long e=m*totalTrips;
+        // Long m=Long.MAX_VALUE;
+        // for(int i=0;i<time.length;i++){
+        //     m=Math.min(m,time[i]);
+        // }
+        long e=Long.MAX_VALUE;
         while(s<=e){
             long mid=s+(e-s)/2;
             long t=0;
