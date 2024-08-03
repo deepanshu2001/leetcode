@@ -1,36 +1,33 @@
 class Solution {
-    public int [] merge(int arr1[],int arr2[]){
-        int arr[]=new int[arr1.length+arr2.length];
-        int i=0;
-        int j=0;
-        int k=0;
-        while(i<arr1.length && j<arr2.length){
-            if(arr1[i]>arr2[j]){
-                arr[k++]=arr2[j];
-                j++;
+    public void sort(int nums[],int low,int high){
+        if(low>=high){
+            return;
+        }
+        int s=low;
+        int e=high;
+        int mid=s+(e-s)/2;
+        int pivot=nums[mid];
+        while(s<=e){
+            
+            while(nums[s]<pivot){
+                s++;
             }
-            else{
-                arr[k++]=arr1[i];
-                i++;
+            while(nums[e]>pivot){
+                e--;
+            }
+            if(s<=e){
+                int temp=nums[s];
+                nums[s]=nums[e];
+                nums[e]=temp;
+                s++;
+                e--;
             }
         }
-        while(i<arr1.length){
-            arr[k++]=arr1[i];
-            i++;
-        }
-        while(j<arr2.length){
-            arr[k++]=arr2[j];
-            j++;
-        }
-        return arr;
+        sort(nums,low,e);
+        sort(nums,s,high);
     }
     public int[] sortArray(int[] nums) {
-        if(nums.length==1){
-            return nums;
-        }
-        int mid=nums.length/2;
-        int left[]=sortArray(Arrays.copyOfRange(nums,0,mid));
-        int right[]=sortArray(Arrays.copyOfRange(nums,mid,nums.length));
-        return merge(left,right);
+        sort(nums,0,nums.length-1);
+        return nums;
     }
 }
