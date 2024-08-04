@@ -17,9 +17,9 @@ class Solution {
             l++;
         }
         while(l<=right){
-            ans+=pq.remove();
+            ans=(ans+pq.remove())%1000000007;
             l++;
         }
-        return (int)ans%10000000;
+        return ans;
     }
 }
