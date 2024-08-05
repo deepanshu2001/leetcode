@@ -1,12 +1,11 @@
 class Solution {
     public boolean isPowerOfThree(int n) {
-        if(n==0){
+        if(n<=0){
             return false;
         }
-        int x=(int)Math.ceil((Math.log(n)/Math.log(3)));
-        if(Math.pow(3,x)==n){
+        if(n==1){
             return true;
         }
-        return false;
+        return n%3==0 && isPowerOfThree(n/3);
     }
 }
