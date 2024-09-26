@@ -19,7 +19,7 @@ class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m=obstacleGrid.length;
         int n=obstacleGrid[0].length;
-        int dp[][]=new int[m][n];
+        int dp[][]=new int[m+1][n+1];
         for(int row[]:dp){
             Arrays.fill(row,-1);
         }
