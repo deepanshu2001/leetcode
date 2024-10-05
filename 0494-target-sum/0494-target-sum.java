@@ -1,16 +1,16 @@
 class Solution {
-    public int helper(int nums[],int target,int sum,int index){
-        if(sum==target && index==nums.length){
-            return 1;
-        }
-        if(index==nums.length && sum!=target){
+    public int f(int nums[],int ind,int sum,int target){
+        if(ind==nums.length){
+            if(sum==target){
+                return 1;
+            }
             return 0;
         }
-        int left=helper(nums,target,sum+nums[index],index+1);
-        int right=helper(nums,target,sum-nums[index],index+1);
-        return left+right;
+        int plus=f(nums,ind+1,sum+nums[ind],target);
+        int minus=f(nums,ind+1,sum-nums[ind],target);
+        return plus+minus;
     }
     public int findTargetSumWays(int[] nums, int target) {
-        return helper(nums,target,0,0);
+        return f(nums,0,0,target);
     }
 }
