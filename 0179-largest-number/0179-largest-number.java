@@ -4,52 +4,50 @@ class Solution {
         String s2=String.valueOf(num2)+String.valueOf(num1);
         return s1.compareTo(s2)>0;
     }
-    public void merge(int nums[],int s,int mid,int e){
-        int mix[]=new int[e-s+1];
-        int i=s;
-        int j=mid+1;
+    public int[] merge(int arr1[],int arr2[]){
+        int mix[]=new int[arr1.length+arr2.length];
+        int i=0;
+        int j=0;
         int k=0;
-        while(i<=mid && j<=e){
-            if(Compare(nums[i],nums[j])){
-                mix[k]=nums[i];
+        while(i<arr1.length && j<arr2.length){
+            if(Compare(arr1[i],arr2[j])){
+                mix[k]=arr1[i];
                 i++;
                 k++;
             }
             else{
-                mix[k]=nums[j];
+                mix[k]=arr2[j];
                 j++;
                 k++;
             }
         }
-        while(i<=mid){
-            mix[k]=nums[i];
+        while(i<arr1.length){
+            mix[k]=arr1[i];
             i++;
             k++;
         }
-        while(j<=e){
-            mix[k]=nums[j];
+        while(j<arr2.length){
+            mix[k]=arr2[j];
             j++;
             k++;
         }
-        for(int l=0;l<mix.length;l++){
-            nums[l+s]=mix[l];
-        }
+        return mix;
     }
-    public void sort(int nums[],int s,int e){
-        if(s>=e){
-            return;
+    public int[] sort(int nums[]){
+        if(nums.length==1){
+            return nums;
         }
-        int mid=s+(e-s)/2;
-        sort(nums, s,mid);
-        sort(nums,mid+1,e);
-        merge(nums,s,mid,e);
+        int mid=nums.length/2;
+        int left[]=sort(Arrays.copyOfRange(nums,0,mid));
+        int right[]=sort(Arrays.copyOfRange(nums,mid,nums.length));
+        return merge(left,right);
     }
     public String largestNumber(int[] nums) {
-        sort(nums,0,nums.length-1);
+        int arr[]=sort(nums);
         String str[]=new String[nums.length];
         String ans="";
         for(int i=0;i<nums.length;i++){
-            str[i]=String.valueOf(nums[i]);
+            str[i]=String.valueOf(arr[i]);
         }
         for(int i=0;i<nums.length;i++){
             ans+=str[i];
