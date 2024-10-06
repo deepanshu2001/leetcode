@@ -1,29 +1,23 @@
 class Solution {
-    public boolean isPalin(String s){
-        int i=0;
-        int j=s.length()-1;
-        while(i<j){
-            if(s.charAt(i)==s.charAt(j)){
-               i++;
-               j--;
-            }
-            else{
-                return false;
-            }
+    public String center(String s,int i,int j){
+        while(i>=0 && j<s.length() && s.charAt(i)==s.charAt(j)){
+           i--;
+           j++;
         }
-        return true;
+        return s.substring(i+1,j);
     }
     public String longestPalindrome(String s) {
-        int maxL=1;
-        String maxAns=s.substring(0,1);
-        for(int i=0;i<s.length();i++){
-            for(int j=i+maxL;j<=s.length();j++){
-                if(j-i>maxL && isPalin(s.substring(i,j))){
-                    maxL=j-i;
-                    maxAns=s.substring(i,j);
-                }
+        String ans=s.substring(0,1);
+        for(int i=0;i<s.length()-1;i++){
+            String odd=center(s,i,i);
+            String even=center(s,i,i+1);
+            if(odd.length()>ans.length()){
+                ans=odd;
+            }
+            if(even.length()>ans.length()){
+                ans=even;
             }
         }
-        return maxAns;
+        return ans;
     }
 }
