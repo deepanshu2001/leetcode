@@ -9,20 +9,21 @@
  * }
  */
 class Solution {
+    ListNode node;
+    public void f(ListNode head,ListNode prev){
+        if(head==null){
+            node=prev;
+            return;
+        }
+        f(head.next,head);
+        head.next=prev;
+    }
     public ListNode reverseList(ListNode head) {
-        if(head==null || head.next==null){
+        if(head==null||head.next==null){
             return head;
         }
-        ListNode prev=null;
-        ListNode node=null;
-        while(head!=null){
-            node=head.next;
-            head.next=prev;
-            prev=head;
-            head=node;
-        }
-        head=prev;
+        f(head,null);
+        head=node;
         return head;
-
     }
 }
