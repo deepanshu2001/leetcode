@@ -10,20 +10,29 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        List<Integer> l=new ArrayList<>();
-        for(ListNode k:lists){
-            while(k!=null){
-                l.add(k.val);
-                k=k.next;
+        int min_index=0;
+        ListNode node=new ListNode(0);
+        ListNode temp=node;
+        boolean isBreak=true;
+        while(true){
+            isBreak=true;
+            int min=Integer.MAX_VALUE;
+            for(int i=0;i<lists.length;i++){
+                if(lists[i]!=null){
+                    if(lists[i].val<min){
+                      min_index=i;
+                      min=lists[i].val;
+                      isBreak=false;
+                    }
+                }
             }
+            if(isBreak){
+                break;
+            }
+            temp.next=new ListNode(min);
+            temp=temp.next;
+            lists[min_index]=lists[min_index].next;
         }
-        Collections.sort(l);
-        ListNode dummy=new ListNode(0);
-        ListNode node=dummy;
-        for(int i=0;i<l.size();i++){
-            node.next=new ListNode(l.get(i));
-            node=node.next;
-        }
-        return dummy.next;
+        return node.next;
     }
 }
