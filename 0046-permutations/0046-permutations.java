@@ -1,24 +1,27 @@
 class Solution {
-    public void helper(int[] nums,List<List<Integer>> ans,List<Integer> curr,int freq[]){
-        if(curr.size()==nums.length){
+    public void helper(int[] nums,List<List<Integer>> ans,int ind){
+        if(ind==nums.length){
+            List<Integer> curr=new ArrayList<>();
+            for(int i=0;i<nums.length;i++){
+                curr.add(nums[i]);
+            }
             ans.add(new ArrayList<>(curr));
             return;
         }
-        for(int i=0;i<nums.length;i++){
-            if(freq[i]!=1){
-                curr.add(nums[i]);
-                freq[i]=1;
-                helper(nums,ans,curr,freq);
-                freq[i]=0;
-                curr.remove(curr.size()-1);
-            }
+        for(int i=ind;i<nums.length;i++){
+            swap(nums,i,ind);
+            helper(nums,ans,ind+1);
+            swap(nums,i,ind);
         }
+    }
+    public void swap(int nums[],int i,int j){
+        int temp=nums[i];
+        nums[i]=nums[j];
+        nums[j]=temp;
     }
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> ans=new ArrayList<>();
-        List<Integer> curr=new ArrayList<>();
-        int freq[]=new int[nums.length];
-        helper(nums,ans,curr,freq);
+        helper(nums,ans,0);
         return ans;
     }
 }
