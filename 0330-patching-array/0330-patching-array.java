@@ -1,6 +1,6 @@
 class Solution {
     public int minPatches(int[] nums, int n) {
-        int max=0;
+        long max=0;
         int add=0;
         int i=0;
         while(max<n){
@@ -10,7 +10,7 @@ class Solution {
             }
             else{
                 add++;
-                max+=max+1;
+                max=2*max+1;
             }
         }
         return add;
