@@ -1,4 +1,4 @@
-class Solution {
+\class Solution {
     public boolean solve(String s, String p, int i, int j, Boolean[][] memo) {
         // Base case
         if (j == p.length()) {
