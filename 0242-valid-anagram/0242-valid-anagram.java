@@ -1,11 +1,24 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
-        char ch1[]=s.toCharArray();
-        char ch2[]=t.toCharArray();
-        Arrays.sort(ch1);
-        Arrays.sort(ch2);
-        s=new String(ch1);
-        t=new String(ch2);
-        return s.equals(t);
+        Map<Character,Integer> map=new HashMap<>();
+        if(s.length()!=t.length()){
+            return false;
+        }
+        for(int i=0;i<s.length();i++){
+            map.put(s.charAt(i),map.getOrDefault(s.charAt(i),0)+1);
+        }
+        for(int i=0;i<t.length();i++){
+            char ch=t.charAt(i);
+            if(!map.containsKey(ch)){
+               return false;
+            }
+            else{
+                map.put(ch,map.get(ch)-1);
+                if(map.get(ch)==0){
+                    map.remove(ch);
+                }
+            }
+        }
+        return true;
     }
 }
