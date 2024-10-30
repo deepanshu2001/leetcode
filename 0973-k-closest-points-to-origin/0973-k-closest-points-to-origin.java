@@ -1,38 +1,16 @@
-class Pair{
-    double first;
-    int second;
-    int third;
-    public Pair(double first,int second,int third){
-        this.first=first;
-        this.second=second;
-        this.third=third;
-    }
-}
 class Solution {
     public int[][] kClosest(int[][] points, int k) {
-        int n=points.length;
-        PriorityQueue<Pair> pq=new  PriorityQueue<>((x, y) -> Double.compare(y.first, x.first));
-        for(int i=0;i<n;i++){
-            int x=points[i][0];
-            int y=points[i][1];
-            double dist=Math.sqrt(x*x+y*y);
-            pq.add(new Pair(dist,x,y));
-            if(pq.size()>k){
-                pq.remove();
-            }
-        }
-        int size=pq.size();
-        int ans[][]=new int[size][2];
-        int ind=0;
-        while(pq.size()!=0){
-            Pair pair=pq.remove();
-            int xi=pair.second;
-            int yi=pair.third;
-            
-            ans[ind][0]=xi;
-            ans[ind][1]=yi;
-            ind++;
+        Arrays.sort(points,(a,b)->{
+            return squaredDistance(a)-squaredDistance(b);
+        });
+        int ans[][]=new int[k][2];
+        for(int i=0;i<k;i++){
+            ans[i][0]=points[i][0];
+            ans[i][1]=points[i][1];
         }
         return ans;
+    }
+    public int squaredDistance(int arr[]){
+      return arr[0]*arr[0]+arr[1]*arr[1];
     }
 }
