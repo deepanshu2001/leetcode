@@ -1,21 +1,21 @@
 class Solution {
     public int characterReplacement(String s, int k) {
-        int hash[]=new int[26];
-        int i=0;
-        int j=0;
-        int maxFreq=Integer.MIN_VALUE;
-        int ans=Integer.MIN_VALUE;
-        while(j<s.length()){
-            char ch=s.charAt(j);
-            hash[ch-'A']++;
-            maxFreq=Math.max(maxFreq,hash[ch-'A']);
-            while(j-i+1-maxFreq>k){
-                char c=s.charAt(i);
-                hash[c-'A']--;
-                i++;
+        int ans = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int hash[] = new int[26];
+            int maxF = 0; 
+            for (int j = i; j < s.length(); j++) {
+                char ch = s.charAt(j);
+                hash[ch - 'A']++;
+                maxF = Math.max(maxF, hash[ch - 'A']);
+                
+                int changes = j - i + 1 - maxF;
+                if (changes <= k) {
+                    ans = Math.max(ans, j - i + 1);
+                } else {
+                    break;
+                }
             }
-            ans=Math.max(j-i+1,ans);
-            j++;
         }
         return ans;
     }
