@@ -4,12 +4,16 @@ class Solution {
         int j=0;
         int ans=0;
         while(j<nums.length){
-            while(j<nums.length && nums[j]==1){
-                j++;
+            if(nums[j]==0){
+               while(nums[j]==0){
+               j++;
+               }
+                i=j;
             }
-            ans=Math.max(ans,j-i);
-            j++;
-            i=j;
+          
+         
+           ans=Math.max(ans,j-i+1);
+           j++;
         }
         return ans;
     }
