@@ -13,12 +13,18 @@ class Solution {
     
     public int pickIndex() {
         double target=prefix_sum*Math.random();
-        for(int i=0;i<prefix.length;i++){
-            if(target<prefix[i]){
-                return i;
+        int s=0;
+        int e=prefix.length;
+        while(s<e){
+            int mid=s+(e-s)/2;
+            if(target>prefix[mid]){
+                s=mid+1;
+            }
+            else{
+                e=mid;
             }
         }
-        return -1;
+        return s;
 
     }
 }
