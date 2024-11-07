@@ -1,53 +1,42 @@
 class Solution {
-    public int[] computeLPS(String pattern){
-        int m=pattern.length();
-        int i=0;
-        int j=1;
-        int LPS[]=new int[m];
-        LPS[0]=0;
-        while(j<m){
-            if(pattern.charAt(i)==pattern.charAt(j)){
-                i++;
-                LPS[j]=i;
-                j++;
-            }
-            else{
-                if(i!=0){
-                   i=LPS[i-1];
-                }
-                else{
-                    LPS[j]=0;
-                    j++;
-                }
-            }
-        }
-        return LPS;
+    private final int PRIME = 101;
+
+  private double calculateHash(String str) {
+    double hash = 0;
+    for(int i=0; i < str.length(); i++) {
+      hash += str.charAt(i) * Math.pow(PRIME, i);
     }
-    public boolean rotateString(String s, String goal) {
-        //first we need to generate the LPS
-        int LPS[]=computeLPS(goal);
-        s=s+s;
-        int n=s.length();
-        int m=goal.length();
-        int i=0;//s
-        int j=0;
-        while(i<n){
-          if(s.charAt(i)==goal.charAt(j)){
-            i++;
-            j++;
-          }
-          if(j==m){
-            return true;
-          }
-          else if(i<n && s.charAt(i)!=goal.charAt(j)){
-            if(j!=0){
-                j=LPS[j-1];
-            }
-            else{
-                i++;
-            }
-          }
+    return hash;
+  }
+
+  private double updateHash(double prevHash, char oldChar, char newChar, int patternLength) {
+      double newHash = (prevHash - oldChar) / PRIME;
+    newHash = newHash + newChar * Math.pow(PRIME, patternLength - 1);
+    return newHash;
+  }
+
+  public boolean search(String text, String pattern) {
+    int patternLength = pattern.length();
+      double patternHash = calculateHash(pattern);
+      double textHash = calculateHash(text.substring(0, patternLength));
+
+    for(int i=0; i<= text.length() - patternLength; i++) {
+      if(textHash == patternHash) {
+        if(text.substring(i, i+patternLength).equals(pattern)) {
+          return true;
         }
-        return false;
+      }
+
+      if (i < text.length() - patternLength) {
+        textHash = updateHash(textHash, text.charAt(i), text.charAt(i + patternLength), patternLength);
+      }
+    }
+    return false;
+  }
+    public boolean rotateString(String s, String goal) {
+        if(s.length()!=goal.length()){
+            return false;
+        }
+        return search(s+s,goal);
     }
 }
