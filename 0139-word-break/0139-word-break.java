@@ -1,8 +1,8 @@
 class Solution {
-    String s;;
-    List<String> wordDict;
     int memo[];
-    public boolean dp(int i){
+    String s="";
+    List<String> wordDict;
+    public boolean f(int i){
         if(i<0){
             return true;
         }
@@ -13,9 +13,10 @@ class Solution {
             if(i-word.length()+1<0){
                 continue;
             }
-            if(s.substring(i-word.length()+1,i+1).equals(word) && dp(i-word.length())){
+            if(word.equals(s.substring(i-word.length()+1,i+1)) && f(i-word.length())){
                 memo[i]=1;
                 return true;
+
             }
         }
         memo[i]=0;
@@ -25,7 +26,7 @@ class Solution {
         this.s=s;
         this.wordDict=wordDict;
         this.memo=new int[s.length()];
-        Arrays.fill(this.memo,-1);
-        return dp(s.length()-1);
+        Arrays.fill(memo,-1);
+        return f(s.length()-1);
     }
 }
