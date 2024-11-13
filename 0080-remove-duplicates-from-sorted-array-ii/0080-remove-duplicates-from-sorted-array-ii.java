@@ -1,22 +1,22 @@
 class Solution {
     public int removeDuplicates(int[] nums) {
-        int i=1;
         int cnt=1;
-        if(nums.length==0){
-            return 0;
-        }
+        int k=0;
+        int prev=nums[0];
         for(int j=1;j<nums.length;j++){
-            if(nums[j]==nums[j-1]){
+            if(nums[j]==prev){
                 cnt++;
             }
             else{
+                prev=nums[j];
                 cnt=1;
             }
-            if(cnt<=2){
-                nums[i]=nums[j];
-                i++;
+            if(cnt>2){
+                k++;
+                nums[j]=Integer.MAX_VALUE;
             }
         }
-        return i;
+        Arrays.sort(nums);
+        return nums.length-k;
     }
 }
