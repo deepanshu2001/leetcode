@@ -1,12 +1,20 @@
+
+
+import static java.lang.Math.log;
+
 class Solution {
     public long countCompleteDayPairs(int[] hours) {
-        long total=0;
-        int hash[]=new int[24];
-        for(int i : hours){
-            total += hash[i%24];
-            int rem = (24 - i % 24) % 24;
-            hash[rem]+=1;
+        Map<Integer,Integer> map=new HashMap<>();
+        long cnt=0;
+        for(int t:hours){
+            int rem=t%24;
+            int key=(24-rem)%24;
+            if(map.containsKey(key)){
+               cnt+=map.get(key);
+            }
+            map.put(rem,map.getOrDefault(rem,0)+1);
+            
         }
-        return total;
+        return cnt;
     }
 }
