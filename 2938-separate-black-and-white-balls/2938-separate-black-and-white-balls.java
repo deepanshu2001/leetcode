@@ -1,14 +1,12 @@
 class Solution {
     public long minimumSteps(String s) {
-        int cnt = 0;
-        Stack<Character> st=new Stack<>();
+        int whiteBalls=0;
+        long cnt=0;
         for(int i=0;i<s.length();i++){
-           if(s.charAt(i)=='1'){
-            st.push(s.charAt(i));
-           }
-           else{
-            cnt+=st.size();
-           }
+            if(s.charAt(i)=='0'){
+                cnt+=i-whiteBalls;
+                whiteBalls++;
+            }
         }
 
         return cnt;
