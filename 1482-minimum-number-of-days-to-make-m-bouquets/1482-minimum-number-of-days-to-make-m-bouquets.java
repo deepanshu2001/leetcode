@@ -19,7 +19,7 @@ class Solution {
             int cnt=0;
             int no_of_b=0;
             int b=0;
-            int []arr=new int[n];
+            
             for(int i=0;i<bloomDay.length;i++){
                 if(bloomDay[i]<=mid){
                     cnt++;
