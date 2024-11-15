@@ -25,13 +25,16 @@ class Solution {
                     cnt++;
                 }
                 else{
-                   b+=cnt/k; 
                    cnt=0;
+                }
+                if(cnt==k){
+                    no_of_b++;
+                    cnt=0;
                 }
 
             }
-            b+=cnt/k;
-            if(b<m){
+            
+            if(no_of_b<m){
                s=mid+1;
             }
             else{
