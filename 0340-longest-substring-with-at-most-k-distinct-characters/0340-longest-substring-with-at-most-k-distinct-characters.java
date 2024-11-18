@@ -11,7 +11,7 @@ class Solution {
             ans=Math.max(j-i+1,ans);
            }
            else{
-            while(map.size()>k){
+            if(map.size()>k){
                 char temp=s.charAt(i);
                 map.put(temp,map.get(temp)-1);
                 if(map.get(temp)==0){
