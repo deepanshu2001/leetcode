@@ -1,21 +1,19 @@
 class TwoSum {
-    List<Integer> list;
-  
+    Map<Integer,Integer> map;
     public TwoSum() {
-        list=new ArrayList<>();
+        map=new HashMap<>();
     }
     
     public void add(int number) {
-        list.add(number);
+        map.put(number,map.getOrDefault(number,0)+1);
     }
     
     public boolean find(int value) {
-        Map<Integer,Integer> map=new HashMap<>();
-        for(int i=0;i<list.size();i++){
-            if(map.containsKey(list.get(i))){
+        for(Map.Entry<Integer,Integer> m:map.entrySet()){
+            int comp=value-m.getKey();
+            if(map.containsKey(comp)){
                 return true;
-            }
-            map.put(value-list.get(i),i);
+            }           
         }
         return false;
     }
