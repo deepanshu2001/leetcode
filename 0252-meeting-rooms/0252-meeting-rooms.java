@@ -1,16 +1,23 @@
 class Solution {
     public boolean canAttendMeetings(int[][] intervals) {
-        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
-        if(intervals.length==0){
+        PriorityQueue<int []> pq=new PriorityQueue<>((a,b)->a[0]-b[0]);
+        for(int i=0;i<intervals.length;i++){
+            pq.add(new int[]{intervals[i][0],intervals[i][1]});
+        }
+        if(pq.size()==0){
             return true;
         }
-        int end=intervals[0][1];
-        for(int i=1;i<intervals.length;i++){
-            int start=intervals[i][0];
-            if(start<end){
+        int arr[]=pq.poll();
+        int start=arr[0];
+        int end=arr[1];
+        while(!pq.isEmpty()){
+            int a[]=pq.remove();
+            if(a[0]>=end){
+                end=a[1];
+            }
+            else{
                 return false;
             }
-            end=intervals[i][1];
         }
         return true;
     }
