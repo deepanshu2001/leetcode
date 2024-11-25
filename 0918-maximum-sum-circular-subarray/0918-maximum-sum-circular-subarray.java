@@ -10,10 +10,14 @@ class Solution {
             total_sum+=nums[i];
         }
         //this is when we can find ans in the array without cheking rotated
-        int sum=nums[0];
-        for(int i=1;i<n;i++){
-            sum=Math.max(nums[i],sum+nums[i]);
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
             ans=Math.max(ans,sum);
+            if(sum<0){
+                sum=0;
+            }
+            
         }
         int min_sum=nums[0];
         int s2=nums[0];
