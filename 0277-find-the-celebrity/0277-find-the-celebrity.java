@@ -3,32 +3,19 @@
 
 public class Solution extends Relation {
     public int findCelebrity(int n) {
-        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
-        for(int i=0;i<n;i++){
-            adj.add(new ArrayList<>());
-        }
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(i!=j && knows(i,j)==true){
-                   adj.get(i).add(j);
-                }
+        int candidate=0;
+        for(int i=1;i<n;i++){
+            if(i!=candidate && knows(candidate,i)){
+                candidate=i;
             }
         }
         for(int i=0;i<n;i++){
-            if(adj.get(i).isEmpty()){
-                boolean is_celebrity=true;
-                for(int j=0;j<n;j++){
-                    if(i!=j && knows(j,i)==false){
-                      is_celebrity=false;
-                      break;
-                    }
-                }
-                if(is_celebrity){
-                    return i;
+            if(i!=candidate){
+                if(!knows(i,candidate)||knows(candidate,i)==true){
+                    return -1;
                 }
             }
         }
-        return -1;
-
+        return candidate;
     }
 }
