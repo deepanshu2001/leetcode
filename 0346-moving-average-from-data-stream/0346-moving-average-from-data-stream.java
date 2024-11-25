@@ -1,29 +1,16 @@
 class MovingAverage {
     int size;
-    List<Integer> list=new ArrayList<>();
+    int prefix_sum=0;
+    ArrayDeque<Integer> dq=new ArrayDeque<>();
     public MovingAverage(int size) {
         this.size=size;
     }
     
     public double next(int val) {
-        double ans=0.0;
-        list.add(val);
-        if(list.size()==1){
-            ans=val*1.0/1;
-        }
-        else if(list.size()<size){
-            for(int i=0;i<list.size();i++){
-                ans+=list.get(i);
-            }
-            ans=ans*1.0/list.size();
-        }
-        else{
-            for(int i=list.size()-1;i>=list.size()-size;i--){
-                ans+=list.get(i);
-            }
-            ans=ans*1.0/size;
-        }
-        return ans;
+        dq.add(val);
+        int tail=dq.size()>size?dq.removeFirst():0;
+        prefix_sum=prefix_sum-tail+val;
+        return prefix_sum*1.0/dq.size();
     }
 }
 
