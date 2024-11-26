@@ -1,22 +1,24 @@
 class HitCounter {
-    Map<Integer,Integer> map;
+    Queue<Integer> queue;
     public HitCounter() {
-        map=new HashMap<>();
+        queue=new LinkedList<>();
     }
     
     public void hit(int timestamp) {
-        map.put(timestamp,map.getOrDefault(timestamp,0)+1);
+        queue.add(timestamp);
     }
     
     public int getHits(int timestamp) {
-        int initial_time=timestamp-300+1;
-        int cnt=0;
-        for(Map.Entry<Integer,Integer> m:map.entrySet()){
-            if(m.getKey()>=initial_time && m.getKey()<=timestamp){
-                cnt+=m.getValue();
+        while(!queue.isEmpty()){
+            int diff=timestamp-queue.peek();
+            if(diff>=300){
+                queue.remove();
+            }
+            else{
+                break;
             }
         }
-        return cnt;
+        return queue.size();
     }
 }
 
