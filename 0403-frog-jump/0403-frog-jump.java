@@ -21,13 +21,35 @@ class Solution {
             return false;
         }
         int n=stones.length;
-        int dp[][]=new int[n][n];
-        for(int row[]:dp){
-            Arrays.fill(row,-1);
-        }
+        boolean dp[][]=new boolean[2001][2001];
+        
         for(int i=0;i<stones.length;i++){
             map.put(stones[i],i);
         }
-        return solve(0,0,stones,dp);
+        dp[0][0]=true;
+        for(int ind=0;ind<n;ind++){
+            for (int prevJump = 0; prevJump <= n; prevJump++) {
+                // If stone exists, mark the value with position and jump as 1.
+                if (dp[ind][prevJump]) {
+                    if (map.containsKey(stones[ind] + prevJump)) {
+                        dp[map.get(stones[ind] + prevJump)][prevJump] = true;
+                    }
+                    if (map.containsKey(stones[ind] + prevJump + 1)) {
+                        dp[map.get(stones[ind] + prevJump + 1)][prevJump + 1] = true;
+                    }
+                    if (map.containsKey(stones[ind] + prevJump - 1)) {
+                        dp[map.get(stones[ind] + prevJump - 1)][prevJump - 1] = true;
+                    }
+                }
+
+
+            }
+        }
+        for (int index = 0; index <= n; index++) {
+            if (dp[n - 1][index]) {
+                return true;
+            }
+        }
+        return false;
     }
 }
