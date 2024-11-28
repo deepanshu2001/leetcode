@@ -5,16 +5,24 @@ class Solution {
             char ch=s.charAt(i);
             map.put(ch,map.getOrDefault(ch,0)+1);
         }
-        List<Character> list=new ArrayList<>(map.keySet());
-        Collections.sort(list,(a,b)->map.get(b)-map.get(a));
-        StringBuilder sb=new StringBuilder();
-        for(char ch:list){
-            int cnt=map.get(ch);
-            while(cnt!=0){
-                sb.append(ch);
-                cnt--;
+        int maxF=Collections.max(map.values());
+        List<List<Character>> buckets=new ArrayList<>();
+        for(int i=0;i<=maxF;i++){
+            buckets.add(new ArrayList<>());
+        }
+        for(Character key:map.keySet()){
+            int freq=map.get(key);
+            buckets.get(freq).add(key);
+        }
+        StringBuilder sb = new StringBuilder();
+    for (int i = buckets.size() - 1; i >= 1; i--) {
+        for (Character c : buckets.get(i)) {
+            for (int j = 0; j < i; j++) {
+                sb.append(c);
             }
         }
-        return sb.toString();
+    }
+    return sb.toString();
+
     }
 }
