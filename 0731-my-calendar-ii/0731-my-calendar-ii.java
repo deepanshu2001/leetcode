@@ -15,9 +15,9 @@ class MyCalendarTwo {
             if(overlapps>maxOverlap){
                 map.put(startTime,map.get(startTime)-1);
                 map.put(endTime,map.get(endTime)+1);
-                if(map.get(startTime)==0){
-                    map.remove(startTime);
-                }
+                // if(map.get(startTime)==0){
+                //     map.remove(startTime);
+                // }
                 return false;
             }
         }
