@@ -13,11 +13,19 @@ class Leaderboard {
     
     public int top(int K) {
         int total=0;
-        List<Integer> list=new ArrayList<>(map.values());
-        Collections.sort(list,Collections.reverseOrder());
-        for(int i=0;i<K;i++){
-            total+=list.get(i);
+        PriorityQueue<Map.Entry<Integer,Integer>> pq=new PriorityQueue<>((a,b)->a.getValue()-b.getValue());
+        for(Map.Entry<Integer,Integer> m:map.entrySet()){
+            pq.add(m);
+            if(pq.size()>K){
+                pq.remove();
+            }
+            
         }
+        Iterator value=pq.iterator();
+        while (value.hasNext()) { 
+            total += ((Map.Entry<Integer, Integer>)value.next()).getValue();   
+        }
+        
         return total;
     }
     
