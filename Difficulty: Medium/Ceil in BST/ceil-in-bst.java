@@ -108,20 +108,24 @@ System.out.println("~");
 // User function Template for Java
 
 class Tree {
+    int ans=-1;
+    public void f(Node root,int key){
+        if(root==null){
+            return;
+        }
+        if(root.data<key){
+            f(root.right,key);
+        }
+        else if(root.data>=key){
+            ans=root.data;
+            f(root.left,key);
+        }
+    }
     // Function to return the ceil of given number in BST.
     int findCeil(Node root, int key) {
         if (root == null) return -1;
         // Code here
-        int ans=-1;
-        while(root!=null){
-            if(root.data<key){
-                root=root.right;
-            }
-            else if(root.data>=key){
-                ans=root.data;
-                root=root.left;
-            }
-        }
+        f(root,key);
         return ans;
     }
 }
