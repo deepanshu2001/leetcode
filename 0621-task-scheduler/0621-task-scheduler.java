@@ -1,32 +1,15 @@
-
-import java.util.Collection;class Solution {
+class Solution {
     public int leastInterval(char[] tasks, int n) {
         int freq[]=new int[26];
         for(char ch:tasks){
             freq[ch-'A']++;
         }
-        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
-        for(int i=0;i<26;i++){
-            if(freq[i]>0){
-                pq.add(freq[i]);
-            }
+        Arrays.sort(freq);
+        int maxF=freq[freq.length-1];
+        int idlespot=(maxF-1)*n;
+        for(int i=24;i>=0;i--){
+            idlespot-=Math.min(freq[i],maxF-1);
         }
-        int time=0;
-        while(!pq.isEmpty()){
-            int cycle=n+1;
-            int totaltask=0;
-            List<Integer> list=new ArrayList<>();
-            while(cycle>0 && !pq.isEmpty()){
-                int maxF=pq.remove();
-                if(maxF>1){
-                    list.add(maxF-1);
-                }
-                cycle--;
-                totaltask++;
-            }
-            pq.addAll(list);
-            time+=pq.isEmpty()?totaltask:n+1;
-        }
-        return time;
+        return idlespot<0?tasks.length:tasks.length+idlespot;
     }
 }
