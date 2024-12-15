@@ -8,21 +8,17 @@ class Solution {
             char ch=s.charAt(j);
             map.put(ch,map.getOrDefault(ch,0)+1);
             if(map.size()==j-i+1){
-               ans=Math.max(ans,j-i+1);
-               j++;
+                ans=Math.max(ans,j-i+1);
             }
-            else if(map.size()<j-i+1){
-               while(map.size()<j-i+1){
-                 map.put(s.charAt(i),map.get(s.charAt(i))-1);
-                 if(map.get(s.charAt(i))==0){
-                    map.remove(s.charAt(i));
-                 }
-                 i++;
-               }
-               j++;
-               
+            while(j-i+1>map.size()){
+                char c=s.charAt(i);
+                map.put(c,map.get(c)-1);
+                if(map.get(c)==0){
+                    map.remove(c);
+                }
+                i++;
             }
-           
+            j++;
         }
         return ans;
     }
