@@ -19,6 +19,9 @@ class Node {
 
 class Solution {
     public Node copyRandomList(Node head) {
+        if(head==null){
+            return null;
+        }
         Node node=head;
         while(node!=null){
             Node next_node=node.next;
@@ -27,7 +30,6 @@ class Solution {
             node=next_node;
         }
         node=head;
-        Node temp=node.next;
         while(node!=null && node.next!=null){
            if(node.random!=null){
               node.next.random=node.random.next;
@@ -41,10 +43,12 @@ class Solution {
         Node copy=head.next;
         Node dummy=copy;
         while(orig!=null){
-            orig.next=orig.next.next;
-            copy.next=copy.next!=null?orig.next.next:null;
-            orig=orig.next;
-            copy=copy.next;
+           orig.next=copy.next;
+           if(orig.next!=null){
+            copy.next=orig.next.next;
+           }
+           orig=orig.next;
+           copy=copy.next;
         }
         return dummy;
     }
