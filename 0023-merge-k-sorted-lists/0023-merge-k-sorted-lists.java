@@ -9,30 +9,46 @@
  * }
  */
 class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
-        int min_index=0;
-        ListNode node=new ListNode(0);
-        ListNode temp=node;
-        boolean isBreak=true;
-        while(true){
-            isBreak=true;
-            int min=Integer.MAX_VALUE;
-            for(int i=0;i<lists.length;i++){
-                if(lists[i]!=null){
-                    if(lists[i].val<min){
-                      min_index=i;
-                      min=lists[i].val;
-                      isBreak=false;
-                    }
-                }
+    public ListNode merge(ListNode l1,ListNode l2){
+        ListNode head=new ListNode(0);
+        ListNode node=head;
+        while(l1!=null && l2!=null){
+            if(l1.val<=l2.val){
+                node.next=new ListNode(l1.val);
+                node=node.next;
+                l1=l1.next;
             }
-            if(isBreak){
-                break;
+            else{
+                node.next=new ListNode(l2.val);
+                node=node.next;
+                l2=l2.next;
             }
-            temp.next=new ListNode(min);
-            temp=temp.next;
-            lists[min_index]=lists[min_index].next;
         }
-        return node.next;
+        while(l1!=null){
+            node.next=new ListNode(l1.val);
+            node=node.next;
+            l1=l1.next;
+        }
+        while(l2!=null){
+            node.next=new ListNode(l2.val);
+            node=node.next;
+            l2=l2.next;
+        }
+        return head.next;
+    }
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists.length==1){
+            return lists[0];
+        }
+        if(lists.length==0){
+           return null;
+        }
+        ListNode h1=lists[0];
+        ListNode h2=lists[1];
+        ListNode head=merge(h1,h2);
+        for(int i=2;i<lists.length;i++){
+            head=merge(head,lists[i]);
+        }
+        return head;
     }
 }
