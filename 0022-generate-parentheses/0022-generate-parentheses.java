@@ -1,25 +1,23 @@
 class Solution {
-    public void f(int open,int close,List<String> ans,String s){
-        if(open==0 && close==0){
-            ans.add(s);
+    public void f(List<String> ans,int n,int left_count,int right_count,String curString){
+        if(curString.length()==2*n){
+            ans.add(curString);
             return;
         }
-        if(open!=0){
-            String str=new String(s);
-            str+="(";
-            f(open-1,close,ans,str);
+        if(left_count<n){
+            curString+="(";
+            f(ans,n,left_count+1,right_count,curString);
+            curString=curString.substring(0,curString.length()-1);
         }
-        if(close>open){
-            String str=new String(s);
-            str+=")";
-            f(open,close-1,ans,str);
+        if(left_count>right_count){
+            curString+=")";
+            f(ans,n,left_count,right_count+1,curString);
+            curString=curString.substring(0,curString.length()-1);
         }
     }
     public List<String> generateParenthesis(int n) {
-        int open=n;
-        int close=n;
         List<String> ans=new ArrayList<>();
-        f(open,close,ans,"");
+        f(ans,n,0,0,"");
         return ans;
     }
 }
