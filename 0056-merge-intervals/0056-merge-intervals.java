@@ -1,35 +1,23 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-        List<List<Integer>> list=new ArrayList<>();
-        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
-        for(int i=0;i<intervals.length;i++){
-            int start=intervals[i][0];
-            int end=intervals[i][1];
-            if(!list.isEmpty() && list.get(list.size()-1).get(1)>=end){
-                continue;
+
+       Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        
+        // Step 2: Use a List<int[]> to store the merged intervals
+        List<int[]> list = new ArrayList<>();
+        
+        // Step 3: Traverse and merge intervals
+        for (int i = 0; i < intervals.length; i++) {
+            // If list is empty or there is no overlap, add the interval
+            if (list.isEmpty() || intervals[i][0] > list.get(list.size() - 1)[1]) {
+                list.add(new int[]{intervals[i][0], intervals[i][1]});
+            } else {
+                // Merge the current interval with the last interval in the list
+                list.get(list.size() - 1)[1] = Math.max(intervals[i][1], list.get(list.size() - 1)[1]);
             }
-            for(int j=i+1;j<intervals.length;j++){
-                if(intervals[j][0]<=end){
-                    end=Math.max(end,intervals[j][1]);
-                }
-                else{
-                    break;
-                }
-            }
-            List<Integer> temp=new ArrayList<>();
-            temp.add(start);
-            temp.add(end);
-            list.add(new ArrayList<>(temp));
         }
-        int ans[][]=new int[list.size()][2];
-        int index=0;
-        for(List<Integer> temp:list){
-            int x=temp.get(0);
-            int y=temp.get(1);
-            ans[index][0]=x;
-            ans[index][1]=y;
-            index++;
-        }
-        return ans;
+        
+        // Step 4: Convert the list to a 2D array
+        return list.toArray(new int[list.size()][]);
     }
 }
