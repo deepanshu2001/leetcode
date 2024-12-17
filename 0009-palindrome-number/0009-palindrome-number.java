@@ -7,18 +7,13 @@ class Solution {
             return false;
         }
         
-        String s=Integer.toString(x);
-        int i=0;
-        int j=s.length()-1;
-        while(i<j){
-            if(s.charAt(i)==s.charAt(j)){
-                i++;
-                j--;
-            }
-            else{
-                return false;
-            }
+        int reverse=0;
+        int num=x;
+        while(num>0){
+            int rem=num%10;
+            reverse=reverse*10+rem;
+            num=num/10;
         }
-        return true;
+        return reverse==x;
     }
 }
