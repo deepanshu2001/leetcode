@@ -1,85 +1,72 @@
 class Solution {
     public List<String> mostVisitedPattern(String[] username, int[] timestamp, String[] website) {
-        Map<String, ArrayList<Visit>> map = new HashMap<>();
-        for(int i=0; i<username.length; ++i){
-            if(!map.containsKey(username[i])){
-                map.put(username[i], new ArrayList<Visit>());
-            }
-            Visit visit = new Visit(website[i],timestamp[i]);
-            ArrayList<Visit> tmp = map.get(username[i]);
-            tmp.add(visit);
+        // Create a map to store the list of websites visited by each user
+        Map<String, List<String>> userWebsites = new HashMap<>();
+        
+        // Create a list to store the visit information
+        List<int[]> visits = new ArrayList<>();
+        
+        // Populate the visits list with timestamp, username, and website index
+        for (int i = 0; i < username.length; i++) {
+            visits.add(new int[]{timestamp[i], i});
         }
-        sort(map);
-        Map<String,HashSet<String>> sequences = generateSequences(map);
-        List<String> threeSequenceAsArray = pickMaxSequenceAndReformat(sequences);
-        return threeSequenceAsArray;        
-    }
-   private List<String> pickMaxSequenceAndReformat(Map<String,HashSet<String>> sequences){
-        String maxSequence = "";
-        int max =0;
-        for(String sequence : sequences.keySet()){
-            int totalUsers = sequences.get(sequence).size();
-            if(totalUsers > max ){
-                max = totalUsers;
-                maxSequence=sequence;
-            }
-            else if(totalUsers == max){
-                if(sequence.compareTo(maxSequence) < 0){
-                    maxSequence = sequence;
+        
+        // Sort the visits based on timestamp
+        Collections.sort(visits, (a, b) -> a[0] - b[0]);
+        
+        // Populate the userWebsites map with sorted website visits for each user
+        for (int[] visit : visits) {
+            String user = username[visit[1]];
+            String site = website[visit[1]];
+            userWebsites.computeIfAbsent(user, k -> new ArrayList<>()).add(site);
+        }
+        
+        // Create a map to store the count of each pattern
+        Map<String, Integer> patternCount = new HashMap<>();
+        
+        // Iterate over each user's website list
+        for (List<String> sites : userWebsites.values()) {
+            
+            // Use a set to avoid counting duplicate patterns for the same user
+            Set<String> patterns = new HashSet<>();
+            
+            // Generate all combinations of three websites
+            for (int i = 0; i < sites.size(); i++) {
+                for (int j = i + 1; j < sites.size(); j++) {
+                    for (int k = j + 1; k < sites.size(); k++) {
+                        
+                        // Create a pattern string
+                        String pattern = sites.get(i) + "," + sites.get(j) + "," + sites.get(k);
+                        
+                        // Add the pattern to the set
+                        patterns.add(pattern);
+                    }
                 }
             }
+            
+            // Increment the count for each pattern
+            for (String pattern : patterns) {
+                patternCount.put(pattern, patternCount.getOrDefault(pattern, 0) + 1);
+            }
         }
-        List<String> threeSequenceAsArray = new ArrayList<>();
-        String [] splitSequence = maxSequence.split(" ");
-        for(String s : splitSequence){
-            threeSequenceAsArray.add(s);
+        
+        // Initialize variables to track the best pattern and its score
+        String bestPattern = "";
+        int maxScore = 0;
+        
+        // Iterate over the patternCount map to find the pattern with the highest score
+        for (Map.Entry<String, Integer> entry : patternCount.entrySet()) {
+            String pattern = entry.getKey();
+            int score = entry.getValue();
+            
+            // Update the best pattern if a higher score is found or if the score is the same but the pattern is lexicographically smaller
+            if (score > maxScore || (score == maxScore && pattern.compareTo(bestPattern) < 0)) {
+                bestPattern = pattern;
+                maxScore = score;
+            }
         }
-        return threeSequenceAsArray;                 
-   }
-   private Map<String,HashSet<String>> generateSequences(Map<String,ArrayList<Visit>> map){
-       Map<String, HashSet<String>> sequences = new HashMap<>();
-         for(String user : map.keySet()){
-             ArrayList<Visit> current = map.get(user);
-             for(int i=0; i< current.size()-2; i++){
-                 for(int j=i+1;j< current.size()-1; j++){
-                     for(int k=j+1 ;k<current.size(); k++){
-                         String threeSequence = current.get(i).site +" "+ current.get(j).site +" "+current.get(k).site;
-                         if(!sequences.containsKey(threeSequence)){
-                             HashSet<String> tmp = new HashSet<>();
-                             tmp.add(user);
-                             sequences.put(threeSequence,tmp);
-                         }
-                         else{
-                             HashSet<String> tmp = sequences.get(threeSequence);
-                             tmp.add(user);
-                             sequences.put(threeSequence,tmp);
-                         }
-                     }
-                 }
-             }                      
-        }
-       return sequences;
-   }      
-    public void sort(Map<String,ArrayList<Visit>> map){
-        for(String user : map.keySet()){
-            ArrayList<Visit> visits = map.get(user);
-            Collections.sort(visits);
-        }
-    }        
-}
-class Visit implements Comparable <Visit>{
-    String site; 
-    int time;
-    public Visit(String site, int time){
-        this.site=site; 
-        this.time=time;
+        
+        // Split the best pattern into a list of websites and return it
+        return Arrays.asList(bestPattern.split(","));
     }
-    public int compareTo(Visit v){
-        if(v.time==this.time){
-            return 0;
-        }
-        else{
-            return this.time > v.time ? 1 : -1;
-        }                
-    }      
 }
