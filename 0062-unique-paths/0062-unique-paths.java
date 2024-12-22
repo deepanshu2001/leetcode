@@ -1,18 +1,18 @@
 class Solution {
-    public int f(int row,int col,int dp[][]){
-        
-        if(row==0 && col==0){
+    public int f(int r,int c,int dp[][]){
+        if(r==0 && c==0){
             return 1;
         }
-        if(row<0||col<0){
+        if(r<0||c<0){
             return 0;
         }
-        if(dp[row][col]!=-1){
-            return dp[row][col];
+        if(dp[r][c]!=-1){
+            return dp[r][c];
         }
-        int up=f(row-1,col,dp);
-        int left=f(row,col-1,dp);
-        return dp[row][col]=left+up;
+        int up=f(r-1,c,dp);
+        int left=f(r,c-1,dp);
+        
+        return dp[r][c]=left+up;
     }
     public int uniquePaths(int m, int n) {
         int dp[][]=new int[m][n];
