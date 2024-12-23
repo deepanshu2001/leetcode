@@ -14,40 +14,34 @@
  * }
  */
 class Solution {
+    public void f(TreeNode node,int level,List<List<Integer>> ans){
+        if(level>=ans.size()){
+            List<Integer> temp=new ArrayList<>();
+            temp.add(node.val);
+            ans.add(new ArrayList<>(temp));
+          
+        }
+        else{
+            if(level%2==0){
+                ans.get(level).add(node.val);
+            }
+            else{
+                ans.get(level).add(0,node.val);
+            }
+        }
+        if(node.left!=null){
+            f(node.left,level+1,ans);
+        }
+        if(node.right!=null){
+            f(node.right,level+1,ans);
+        }
+    }
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> ans=new ArrayList<>();
         if(root==null){
             return ans;
         }
-        Boolean flag=true;
-        Queue<TreeNode> q=new LinkedList<>();
-        q.add(root);
-        while(!q.isEmpty()){
-            int size=q.size();
-            List<Integer> temp=new ArrayList<>();
-            for(int i=0;i<size;i++){
-               TreeNode node=q.remove();
-               if(node.left!=null){
-                  q.add(node.left);
-               }
-               if(node.right!=null){
-                  q.add(node.right);
-               }
-               if(flag==true){
-                temp.add(node.val);
-               }
-               else if(flag==false){
-                   temp.add(0,node.val);
-               }
-            }
-            if(flag==true){
-                flag=false;
-            }
-            else if(flag==false){
-                flag=true;
-            }
-            ans.add(temp);
-        }
+        f(root,0,ans);
         return ans;
     }
 }
