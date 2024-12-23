@@ -1,3 +1,7 @@
+
+
+import static java.lang.Math.addExact;
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -14,34 +18,33 @@
  * }
  */
 class Solution {
-    public void f(TreeNode node,int level,List<List<Integer>> ans){
-        if(level>=ans.size()){
-            List<Integer> temp=new ArrayList<>();
-            temp.add(node.val);
-            ans.add(new ArrayList<>(temp));
-          
+    List<List<Integer>> ans=new ArrayList<>();
+    public void dfs(TreeNode node,int level){
+       if(level>=ans.size()){
+         List<Integer> curr_level=new ArrayList<>();
+         curr_level.add(node.val);
+         ans.add(curr_level);
+       }
+       else{
+        if(level%2==1){
+            ans.get(level).add(0,node.val);
         }
         else{
-            if(level%2==0){
-                ans.get(level).add(node.val);
-            }
-            else{
-                ans.get(level).add(0,node.val);
-            }
+            ans.get(level).add(node.val);
         }
-        if(node.left!=null){
-            f(node.left,level+1,ans);
-        }
-        if(node.right!=null){
-            f(node.right,level+1,ans);
-        }
+       }
+       if(node.left!=null){
+        dfs(node.left,level+1);
+       }
+       if(node.right!=null){
+        dfs(node.right, level+1);
+       }
     }
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> ans=new ArrayList<>();
         if(root==null){
             return ans;
         }
-        f(root,0,ans);
+        dfs(root,0);
         return ans;
     }
 }
