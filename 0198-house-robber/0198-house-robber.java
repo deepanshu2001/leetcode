@@ -11,8 +11,12 @@ class Solution {
         return dp[ind]=Math.max(take,nottake);
     }
     public int rob(int[] nums) {
-        int dp[]=new int[nums.length];
-        Arrays.fill(dp,-1);
-        return f(0,nums,dp);
+        int dp[]=new int[nums.length+2];
+        for(int i=nums.length-1;i>=0;i--){
+            int notake=dp[i+1];
+            int take=nums[i]+dp[i+2];
+            dp[i]=Math.max(take,notake);
+        }
+        return dp[0];
     }
 }
