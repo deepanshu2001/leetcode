@@ -1,18 +1,18 @@
 class Solution {
-    public int rob(int[] nums) {
-        int n=nums.length;
-        //tabulation;
-        int dp[]=new int[n+1];
-        Arrays.fill(dp,-1);
-        dp[0]=nums[0];
-        for(int i=1;i<n;i++){
-            int pick=nums[i];
-            if(i>1){
-                pick+=dp[i-2];
-            }
-            int notpick=0+dp[i-1];
-            dp[i]=Math.max(pick,notpick);
+    public int f(int ind,int nums[],int dp[]){
+        if(ind>=nums.length){
+            return 0;
         }
-        return dp[n-1];
+        if(dp[ind]!=-1){
+            return dp[ind];
+        }
+        int nottake=f(ind+1,nums,dp);
+        int take=nums[ind]+f(ind+2,nums,dp);
+        return dp[ind]=Math.max(take,nottake);
+    }
+    public int rob(int[] nums) {
+        int dp[]=new int[nums.length];
+        Arrays.fill(dp,-1);
+        return f(0,nums,dp);
     }
 }
