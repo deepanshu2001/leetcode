@@ -1,64 +1,49 @@
 class Solution {
-    
-    private void swap(int[] nums, int x, int y) {
-        int temp = nums[x];
-        nums[x] = nums[y];
-        nums[y] = temp;
+    public void swap(int i,int j,int nums[]){
+        int temp=nums[i];
+        nums[i]=nums[j];
+        nums[j]=temp;
     }
-    
-    public int partition_algo(int[] nums, int L, int R) {
-        
-        int P = nums[L];
-        int i = L+1; //0
-        int j = R; //0
-        
-        while(i <= j) {
-            
-            if(nums[i] < P && nums[j] > P) {
-                swap(nums, i, j);
-                i++;
-                j--;
-            }
-            
-            if(nums[i] >= P) {
-                i++;
-            }
-            
-            if(nums[j] <= P) {
-                j--;
-            }
-            
+    public int partition(int L,int R,int nums[]){
+       int i=L+1;
+       int p=nums[L];
+       int j=R;
+       while(i<=j){
+        if(nums[i]<p && nums[j]>p){
+            swap(i,j,nums);
+            i++;
+            j--;
         }
-        
-        swap(nums, L, j);
-        return j; //P is at jth index
+        if(nums[i]>=p){
+            i++;
+        }
+        if(nums[j]<=p){
+            j--;
+        }
+       }
+       swap(L,j,nums);
+       return j;
     }
-    
     public int findKthLargest(int[] nums, int k) {
-        int n = nums.length;
-        
-        int L = 0;
-        int R = n-1;
-        
-        int pivot_idx = 0;
-        
-        //kth largest pivot element - nums[k-1] (descendinforder me partition karenge)
-        
-        while(true) {
-            
-            pivot_idx = partition_algo(nums, L, R);
-            
-            if(pivot_idx == k-1) {
-                break;
-            } else if(pivot_idx > k-1) { //2nd larget , 4th larget
-                R = pivot_idx - 1;
-            } else {
-                L = pivot_idx + 1;
-            }
-            
+        if(nums.length==1){
+            return nums[0];
         }
-        
-        
-        return nums[pivot_idx];
+        int n=nums.length-1;
+        int L=0;
+        int R=n;
+        int pivot=0;
+        while(true){
+           pivot=partition(L,R,nums);
+           if(pivot==k-1){
+                break;   
+           }
+           else if(pivot>k-1){
+              R=pivot-1;
+           }
+           else{
+            L=pivot+1;
+           }
+        }
+        return nums[pivot];
     }
 }
