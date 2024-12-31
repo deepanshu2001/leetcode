@@ -1,16 +1,25 @@
 class Solution {
+    public void swap(int i,int j,int nums[]){
+        int temp=nums[i];
+        nums[i]=nums[j];
+        nums[j]=temp;
+    }
     public int missingNumber(int[] nums) {
-        List<Integer> list=new ArrayList<>();
-        for(int i=0;i<=nums.length;i++){
-            list.add(i);
+        int i=0;
+        while(i<nums.length){
+            int correct=nums[i];
+            if(correct<nums.length && nums[i]!=nums[correct]){
+                swap(i,correct,nums);
+            }
+            else{
+                i++;
+            }
         }
-        Map<Integer,Integer> map=new HashMap<>();
-        for(int i=0;i<nums.length;i++){
-            map.put(i,nums[i]);
+        for(int j=0;j<nums.length;j++){
+            if(nums[j]!=j){
+                return j;
+            }
         }
-        for(Map.Entry<Integer,Integer> m:map.entrySet()){
-            list.remove(m.getValue());
-        }
-        return list.get(0);
+        return nums.length;
     }
 }
