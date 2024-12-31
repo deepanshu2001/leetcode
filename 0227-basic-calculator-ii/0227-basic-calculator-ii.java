@@ -2,29 +2,30 @@ class Solution {
     public int calculate(String s) {
         Stack<Integer> st=new Stack<>();
         char op='+';
-        int curr=0;
-        for(int i=0;i<s.length();i++){
+        int num=0;
+        int i=0;
+        while(i<s.length()){
             char ch=s.charAt(i);
             if(Character.isDigit(ch)){
-              curr=curr*10+ch-'0';
+                num=num*10+ch-'0';
             }
-            if(ch!=' ' && !Character.isDigit(ch) ||i==s.length()-1){
+            if ((!Character.isDigit(ch) && ch != ' ') || i == s.length() - 1) {
                 if(op=='+'){
-                    st.push(curr);
+                    st.push(num);
                 }
                 if(op=='-'){
-                    st.push(-curr);
+                    st.push(-num);
                 }
                 if(op=='*'){
-                    st.push(st.pop()*curr);
+                    st.push(st.pop()*num);
                 }
                 if(op=='/'){
-                    st.push(st.pop()/curr);
+                    st.push(st.pop()/num);
                 }
-                curr=0;
                 op=ch;
+                num=0;
             }
-
+            i++;
         }
         int ans=0;
         while(!st.isEmpty()){
