@@ -1,24 +1,39 @@
 class Solution {
+    public boolean bs(int arr[],int target){
+        int s=0;
+        int e=arr.length-1;
+        while(s<=e){
+            int mid=s+(e-s)/2;
+            if(arr[mid]>target){
+                e=mid-1;
+            }
+            else if(arr[mid]<target){
+                s=mid+1;
+            }
+            else if(arr[mid]==target){
+               return true;
+            }
+        }
+        return false;
+    }
     public int[] intersection(int[] nums1, int[] nums2) {
-        HashSet<Integer> set1=new HashSet<>();
-        HashSet<Integer> set2=new HashSet<>();
-        List<Integer> ans=new ArrayList<>();
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        
+        Set<Integer> set=new HashSet<>();
+        List<Integer> list=new ArrayList<>();
         for(int i=0;i<nums1.length;i++){
-            set1.add(nums1[i]);
-        }
-        for(int i=0;i<nums2.length;i++){
-            if(set2.contains(nums2[i])){
-                continue;
-            }
-            if(set1.contains(nums2[i])){
-                ans.add(nums2[i]);
-                set2.add(nums2[i]);
+            if(bs(nums2,nums1[i])){
+                if(!set.contains(nums1[i])){
+                    list.add(nums1[i]);
+                    set.add(nums1[i]);
+                }
             }
         }
-        int arr[]=new int[ans.size()];
-        for(int i=0;i<ans.size();i++){
-            arr[i]=ans.get(i);
+        int ans[]=new int[list.size()];
+        for(int i=0;i<list.size();i++){
+            ans[i]=list.get(i);
         }
-        return arr;
+       return ans;
     }
 }
