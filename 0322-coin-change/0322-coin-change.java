@@ -18,10 +18,23 @@ class Solution {
     }
     public int coinChange(int[] coins, int amount) {
          int dp[][]=new int[coins.length+1][amount+1];
-        for(int row[]:dp){
-            Arrays.fill(row,-1);
-        }
-        int ans=f(0,amount,coins,dp);
+         for(int i=0;i<=amount;i++){
+            dp[coins.length][i]=(int)Math.pow(10,9);
+         }
+         for(int i=0;i<=coins.length;i++){
+            dp[i][0]=0;
+         }
+         for(int i=coins.length-1;i>=0;i--){
+            for(int amu=0;amu<=amount;amu++){
+                int nottake=dp[i+1][amu];
+                int take=(int)Math.pow(10, 9);
+                if(coins[i]<=amu){
+                    take=1+dp[i][amu-coins[i]];
+                }
+                dp[i][amu]=Math.min(take,nottake);
+            }
+         }
+        int ans=dp[0][amount];
        
        
         if(ans==Math.pow(10,9)){
