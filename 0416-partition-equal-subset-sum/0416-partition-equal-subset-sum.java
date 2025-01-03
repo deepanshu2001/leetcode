@@ -25,7 +25,7 @@ class Solution {
             return false;
         }
         int target=total_sum/2;
-        Boolean dp[][]=new Boolean[nums.length+1][target+1];
+        Boolean dp[][]=new Boolean[nums.length][target+1];
         
         return f(0,target,nums,dp);
     }
