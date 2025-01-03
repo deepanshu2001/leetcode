@@ -1,29 +1,23 @@
 class Solution {
-    public boolean f(int ind,int target,int []nums,int dp[][]){
-        //take 
+    public boolean f(int ind,int target,int nums[],Boolean dp[][]){
         if(target==0){
-            dp[ind][target]=0;
             return true;
         }
-        if(ind==nums.length){
-            dp[ind][target]=1;
+        if(ind>=nums.length){
             return false;
         }
-        if(dp[ind][target]!=-1){
-            return dp[ind][target]==0?true:false;
+        if(dp[ind][target]!=null){
+            return dp[ind][target];
         }
+        boolean nottake=f(ind+1,target,nums,dp);
         boolean take=false;
         if(target>=nums[ind]){
             take=f(ind+1,target-nums[ind],nums,dp);
         }
-        //nottake
-        boolean nottake=f(ind+1,target,nums,dp);
-        dp[ind][target]=take||nottake?0:1;
-        return take||nottake;
+        return dp[ind][target]=take||nottake;
     }
     public boolean canPartition(int[] nums) {
         int total_sum=0;
-       
         for(int num:nums){
             total_sum+=num;
         }
@@ -31,10 +25,8 @@ class Solution {
             return false;
         }
         int target=total_sum/2;
-        int dp[][]=new int[nums.length+1][target+1];
-        for(int row[]:dp){
-            Arrays.fill(row,-1);
-        }
+        Boolean dp[][]=new Boolean[nums.length+1][target+1];
+        
         return f(0,target,nums,dp);
     }
 }
