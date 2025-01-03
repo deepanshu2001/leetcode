@@ -25,8 +25,20 @@ class Solution {
             return false;
         }
         int target=total_sum/2;
-        Boolean dp[][]=new Boolean[nums.length][target+1];
-        
-        return f(0,target,nums,dp);
+        boolean dp[][]=new boolean[nums.length+1][target+1];
+        for(int i=0;i<=nums.length;i++){
+            dp[i][0]=true;
+        }
+        for(int i=nums.length-1;i>=0;i--){
+            for(int tar=0;tar<=target;tar++){
+                boolean nottake=dp[i+1][tar];
+                boolean take=false;
+                if(tar>=nums[i]){
+                    take=dp[i+1][tar-nums[i]];
+                }
+                dp[i][tar]=take||nottake;
+            }
+        }
+        return dp[0][target];
     }
 }
