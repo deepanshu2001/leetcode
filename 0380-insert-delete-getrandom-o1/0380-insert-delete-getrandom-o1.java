@@ -1,40 +1,42 @@
-
-
-import static java.lang.Math.random;
-
 class RandomizedSet {
-    Random random = new Random();
     Map<Integer,Integer> map;
-    List<Integer> list;
+    Random rand;
     public RandomizedSet() {
         map=new HashMap<>();
-        list=new ArrayList<Integer>();
+        rand=new Random();
     }
     
     public boolean insert(int val) {
-        if(map.containsKey(val)==true){
-            return false;
+        if(!map.containsKey(val)){
+          map.put(val,1);
+          return true;
         }
-        map.put(val,list.size());
-        list.add(val);
-        return true;
+        map.put(val,map.get(val)+1);
+        return false;
     }
     
     public boolean remove(int val) {
-        if(map.containsKey(val)==false){
+        if(!map.containsKey(val)){
             return false;
         }
-        int ind=map.get(val);
-        int last_val=list.get(list.size()-1);
-        list.set(ind,last_val);
-        map.put(last_val,ind);
-        list.remove(list.size()-1);
-        map.remove(val);
+        map.put(val,map.get(val)-1);
+        if(map.get(val)==0){
+            map.remove(val);
+        }
         return true;
     }
     
     public int getRandom() {
-        return list.get(random.nextInt(list.size()));
+        List<Integer> list=new ArrayList<>();
+        for(Map.Entry<Integer,Integer> m:map.entrySet()){
+            int val=m.getValue();
+            while(val>0){
+                list.add(m.getKey());
+                val--;
+            }
+        }
+        int ind=rand.nextInt(0,list.size());
+        return list.get(ind);
     }
 }
 
