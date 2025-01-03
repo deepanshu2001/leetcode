@@ -14,17 +14,20 @@ class MedianFinder {
         else{
             pq2.add(num);
         }
+        if(pq1.size()<pq2.size()){
+            pq1.add(pq2.remove());
+        }
+        else if(pq1.size()>pq2.size()+1){
+            pq2.add(pq1.remove());
+        }
     }
     
     public double findMedian() {
         if(pq1.size()==pq2.size()){
-            return (pq1.peek()+pq2.peek())/2.0;
-        }
-        else if(pq1.size()>pq2.size()){
-           return pq1.peek();
+            return pq1.peek()/2.0 + pq2.peek()/2.0;
         }
         else{
-           return pq2.peek();
+            return pq1.peek();
         }
     }
 }
