@@ -9,24 +9,24 @@ class Solution {
         return convertToWords(num);
     }
     private String convertToWords(int num) {
-        if (num < 10) {
+        if(num<10){
             return belowTen[num];
         }
-        if (num < 20) {
-            return belowTwenty[num - 10];
+        if(num<20){
+            return belowTwenty[num-10];
         }
-        if (num < 100) {
-            return belowHundred[num / 10] + (num % 10 != 0 ? " " + convertToWords(num % 10) : "");
+        if(num<100){
+            return belowHundred[num/10]+ (num%10!=0? " "+convertToWords(num%10):"");
         }
-        if (num < 1000) {
-            return convertToWords(num / 100) + " Hundred" + (num % 100 != 0 ? " " + convertToWords(num % 100) : "");
+        if(num<1000){
+            return convertToWords(num/100)+ " Hundred"+(num%100!=0?" "+convertToWords(num%100):"");
         }
-        if (num < 1000000) {
-            return convertToWords(num / 1000) + " Thousand" + (num % 1000 != 0 ? " " + convertToWords(num % 1000) : "");
+        if(num<1000000){
+    return convertToWords(num/1000)+ " Thousand" +(num%1000!=0?" "+convertToWords(num%1000):"");
+}
+        if(num<1000000000){
+            return convertToWords(num/1000000)+" Million"+(num%1000000!=0?" "+convertToWords(num%1000000):"");
         }
-        if (num < 1000000000) {
-            return convertToWords(num / 1000000) + " Million" + (num % 1000000 != 0 ? " " + convertToWords(num % 1000000) : "");
-        }
-        return convertToWords(num / 1000000000) + " Billion" + (num % 1000000000 != 0 ? " " + convertToWords(num % 1000000000) : "");
+        return convertToWords(num/1000000000)+" Billion"+(num%1000000000!=0?" "+convertToWords(num%1000000000):"");
     }
 }
