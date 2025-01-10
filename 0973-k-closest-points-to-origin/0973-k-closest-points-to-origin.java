@@ -3,28 +3,32 @@ class Solution {
         int first;
         int second;
         int third;
-        public Pair(int first,int second,int third){
+        Pair(int first,int second,int third){
             this.first=first;
             this.second=second;
             this.third=third;
         }
     }
     public int[][] kClosest(int[][] points, int k) {
-        PriorityQueue<Pair> pq = new PriorityQueue<>((x, y) -> Integer.compare(y.first, x.first));
-        for(int i=0;i<points.length;i++){
-            int dist=points[i][0]*points[i][0]+points[i][1]*points[i][1];
-            pq.add(new Pair(dist,points[i][0],points[i][1]));
-            while(pq.size()>k){
+        PriorityQueue<Pair> pq=new PriorityQueue<>((x,y)->y.first-x.first);
+        int [][]ans=new int[k][2];
+        for(int point[]:points){
+            int row=point[0];
+            int col=point[1];
+            int dist=row*row+col*col;
+            pq.add(new Pair(dist,row,col));
+            if(pq.size()>k){
                 pq.remove();
             }
         }
-        int ans[][]=new int[k][2];
         int ind=0;
         while(!pq.isEmpty()){
-           Pair pair=pq.remove();
-           ans[ind][0]=pair.second;
-           ans[ind][1]=pair.third;
-           ind++;
+            Pair p=pq.remove();
+            int row=p.second;
+            int col=p.third;
+            ans[ind][0]=row;
+            ans[ind][1]=col;
+            ind++;
         }
         return ans;
     }
