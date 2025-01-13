@@ -1,44 +1,51 @@
 class Solution {
+    class Pair{
+        char first;
+        int second;
+        public Pair(char first,int second){
+            this.first=first;
+            this.second=second;
+        }
+    }
     public String reorganizeString(String s) {
-        int freq[]=new int[26];
+        Map<Character,Integer> map=new HashMap<>();
         for(int i=0;i<s.length();i++){
-            freq[s.charAt(i)-'a']++;
+            char ch=s.charAt(i);
+            map.put(ch,map.getOrDefault(ch,0)+1);
         }
-        int max=0;
-        char letter='a';
-        for(int i=0;i<26;i++){
-            if(freq[i]>max){
-                max=freq[i];
-                letter=(char)(i+'a');
-            }
+        PriorityQueue<Pair> pq=new PriorityQueue<>((x,y)->y.second-x.second);
+        for(Map.Entry<Character,Integer> m:map.entrySet()){
+           pq.add(new Pair(m.getKey(),m.getValue()));
         }
-        if(max>(s.length()+1)/2){
-            return "";
-        }
-        char ch[]=new char[s.length()];
-        int ind=0;
-        while(max>0){
-            ch[ind]=letter;
-            ind=ind+2;
-            max--;
-        }
-        freq[letter-'a']=0;
-        for(int i=0;i<26;i++){
-            while(freq[i]>0){
-                if(ind>=s.length()){
-                    ind=1;
+        StringBuilder sb=new StringBuilder();
+        while(!pq.isEmpty()){
+            Pair p=pq.remove();
+            char ch=p.first;
+            int cnt=p.second;
+            if(sb.length()==0||sb.charAt(sb.length()-1)!=ch){
+                sb.append(ch);
+                cnt--;
+                if(cnt>0){
+                    pq.add(new Pair(ch,cnt));
                 }
-                ch[ind]=(char)(i+'a');
-                ind=ind+2;
-                freq[i]--;
-                
+            }
+            else{
+                if(pq.isEmpty()){
+                    return "";
+                }
+                else{
+                    Pair q=pq.remove();
+                    char second_char=q.first;
+                    int new_cnt=q.second;
+                    sb.append(second_char);
+                    new_cnt--;
+                    if(new_cnt>0){
+                        pq.add(new Pair(second_char,new_cnt));
+                    }
+                    pq.add(new Pair(ch,cnt));
+                }
             }
         }
-
-        String str="";
-        for(int i=0;i<ch.length;i++){
-            str+=ch[i];
-        }
-        return str;
+        return sb.toString();
     }
 }
