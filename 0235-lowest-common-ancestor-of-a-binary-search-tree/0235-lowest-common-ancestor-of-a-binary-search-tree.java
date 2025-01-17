@@ -9,26 +9,22 @@
  */
 
 class Solution {
-    TreeNode ans=null;
-    public void f(TreeNode node,TreeNode p,TreeNode q){
-        while(node!=null){
-            if(node.val>p.val && node.val>q.val){
-               node=node.left;
-            }
-            else if(node.val<p.val && node.val<q.val){
-                node=node.right;
-            }
-            else{
-                ans=node;
-                break;
-            }
+    public TreeNode f(TreeNode node,TreeNode p,TreeNode q){
+        if(node.val<p.val && node.val<q.val){
+            return f(node.right,p,q);
         }
+        else if(node.val>p.val && node.val>q.val){
+            return f(node.left,p,q);
+        }
+        else if(node.val>=p.val && node.val<=q.val){
+            return node;
+        }
+        return node;
     }
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-       if(root==null){
-        return null;
-       }   
-       f(root,p,q);
-       return ans;
+        if(root==null){
+            return root;
+        }
+        return f(root,p,q);
     }
 }
