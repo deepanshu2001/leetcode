@@ -7,7 +7,7 @@ class Solution {
             if(matrix[r][c]>target){
                 c--;
             }
-            if(matrix[r][c]<target){
+            else if(matrix[r][c]<target){
                 r++;
             }
             else if(matrix[r][c]==target){
