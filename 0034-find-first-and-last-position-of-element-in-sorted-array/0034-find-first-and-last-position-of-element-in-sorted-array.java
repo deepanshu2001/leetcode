@@ -11,16 +11,15 @@ class Solution {
                 e=mid-1;
             }
             else{
-                s=mid;
-                e=mid;
-                while(e>-1 && nums[e]==target){
-                    e=e-1;
+                int i=mid;
+                int j=mid;
+                while(nums[i]==target){
+                    i--;
                 }
-                while(s<nums.length && nums[s]==target){
-                    s=s+1;
+                while(nums[j]==target){
+                    j++;
                 }
-                int arr[]={e+1,s-1};
-                return arr;
+                return new int[]{i+1,j-1};
             }
         }
         return new int[]{-1,-1};
