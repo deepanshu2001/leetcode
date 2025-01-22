@@ -9,27 +9,9 @@
  * }
  */
 class Solution {
-    public ListNode getMid(ListNode head){
-        ListNode temp=head;
-        int length=0;
-        while(temp!=null){
-            length++;
-            temp=temp.next;
-        }
-        int len=length/2;
-        temp=head;
-        ListNode curr=head;
-        while(len>0){
-            curr=temp;
-            temp=temp.next;
-            len--;
-        }
-        curr.next=null;
-        return temp;
-    }
     public ListNode reverse(ListNode head){
-        ListNode curr=head;
         ListNode prev=null;
+        ListNode curr=head;
         ListNode next=curr.next;
         while(curr!=null){
             curr.next=prev;
@@ -43,27 +25,34 @@ class Solution {
         return head;
     }
     public void reorderList(ListNode head) {
-        if(head==null ||head.next==null){
+        if(head==null||head.next==null){
             return;
         }
-        ListNode mid=getMid(head);
-        ListNode temp2=reverse(mid);
-        ListNode temp1=head;
-        ListNode dummy=new ListNode(0);
-        
-        ListNode node=dummy;
-        while(temp1!=null||temp2!=null){
-            if(temp1!=null){
-               node.next=temp1;
-               node=node.next;
-               temp1=temp1.next;
+        ListNode s=head;
+        ListNode f=head;
+        while(f!=null && f.next!=null){
+            s=s.next;
+            f=f.next.next;
+        }
+        f=head;
+        while(f.next!=s){
+            f=f.next;
+        }
+        f.next=null;
+        ListNode t2=reverse(s);
+        ListNode temp=head;
+        ListNode t1=head.next;
+        while(t1!=null||t2!=null){
+            if(t2!=null){
+                temp.next=new ListNode(t2.val);
+                t2=t2.next;
+                temp=temp.next; 
             }
-            if(temp2!=null){
-               node.next=temp2;
-               node=node.next;
-               temp2=temp2.next;
+            if(t1!=null){
+                temp.next=new ListNode(t1.val);
+                temp=temp.next;
+                t1=t1.next;
             }
         }
-        head=dummy.next;
     }
 }
