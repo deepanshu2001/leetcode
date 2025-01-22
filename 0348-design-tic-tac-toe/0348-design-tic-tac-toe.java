@@ -1,49 +1,31 @@
 class TicTacToe {
-    int matrix[][];
+    int rows[];
+    int cols[];
+    int diag;
+    int anti;
     public TicTacToe(int n) {
-        matrix=new int[n][n];
+        rows=new int[n];
+        cols=new int[n];
+        diag=0;
+        anti=0;
     }
     
     public int move(int row, int col, int player) {
-        matrix[row][col]=player;
-        //checking row;
-        boolean row_check=true;
-        for(int i=0;i<matrix.length;i++){
-            if(matrix[row][i]!=player){
-                row_check=false;
-                break;
-            }
+        int n=rows.length;
+        int curr_player=player==1?1:-1;
+        rows[row]+=curr_player;
+        cols[col]+=curr_player;
+        if(row==col){
+            diag+=curr_player;
         }
-        //checking col
-        boolean col_check=true;
-        for(int i=0;i<matrix.length;i++){
-            if(matrix[i][col]!=player){
-                col_check=false;
-                break;
-            }
+        if(row==rows.length-col-1){
+            anti+=curr_player;
         }
-        //checking left diagonal
-        boolean left_diag=true;
-        for(int i=0;i<matrix.length;i++){
-            if(matrix[i][i]!=player){
-                left_diag=false;
-                break;
-            }
-        }
-        boolean right_diag=true;
-        int j=matrix.length-1;
-        for(int i=0;i<matrix.length;i++){
-            if(matrix[i][j]!=player){
-                right_diag=false;
-                break;
-            }
-            j--;
-        }
-        if(row_check||col_check||left_diag||right_diag){
+
+        if(Math.abs(rows[row])==n||Math.abs(cols[col])==n||Math.abs(diag)==n||Math.abs(anti)==n){
             return player;
         }
         return 0;
-
     }
 }
 
