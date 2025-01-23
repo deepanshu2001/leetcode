@@ -3,28 +3,24 @@ class Solution {
         StringBuilder sb=new StringBuilder();
         for(int i=0;i<chars.length;i++){
             char ch=chars[i];
-            int j=i;
             int cnt=0;
+            int j=i;
             while(j<chars.length && ch==chars[j]){
-               cnt++;
-               j++;
+                cnt++;
+                j++;
             }
+            i=j-1;
             if(cnt==1){
                 sb.append(ch);
             }
-            else if(cnt>1){
+            else{
                 sb.append(ch);
                 sb.append(cnt);
-                i=j-1;
             }
         }
-        char []arr=new char[sb.length()];
-        for(int i=0;i<arr.length;i++){
-            arr[i]=sb.charAt(i);
+        for(int i=0;i<sb.length();i++){
+            chars[i]=sb.charAt(i);
         }
-        for(int i=0;i<arr.length;i++){
-            chars[i]=arr[i];
-        }
-        return arr.length;
+        return sb.length();
     }
 }
