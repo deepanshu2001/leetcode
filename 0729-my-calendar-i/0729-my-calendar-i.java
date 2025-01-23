@@ -1,17 +1,17 @@
 class MyCalendar {
-    List<int []> list;
+    TreeMap<Integer,Integer> map;
     public MyCalendar() {
-        list=new ArrayList<>();
+        map=new TreeMap<>();
     }
     
     public boolean book(int startTime, int endTime) {
-        for(int arr[]:list){
-            if(arr[0]<endTime && arr[1]>startTime){
-                return false;
-            }
+        Integer prev=map.floorKey(startTime);
+        Integer next=map.ceilingKey(startTime);
+        if((prev==null || map.get(prev)<=startTime) && (next==null || endTime<=next)){
+            map.put(startTime,endTime);
+            return true;
         }
-        list.add(new int[]{startTime,endTime});
-        return true;
+        return false;
     }
 }
 
