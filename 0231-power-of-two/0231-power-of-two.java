@@ -3,9 +3,10 @@ class Solution {
         if(n==1){
             return true;
         }
-        if(n==0){
+        if(n%2==1){
             return false;
         }
         return n%2==0 && isPowerOfTwo(n/2);
+        
     }
 }
