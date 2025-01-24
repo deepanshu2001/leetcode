@@ -1,20 +1,21 @@
-import java.util.Arrays;
-import static java.util.Collections.min;
-
 class Solution {
     public int maxWidthRamp(int[] nums) {
-        Integer indices[] = new Integer[nums.length];
-        for (int i = 0; i < nums.length; i++) {
-            indices[i] = i;
+        int n=nums.length;
+        int rightMax[]=new int[n];
+        rightMax[n-1]=nums[n-1];
+        for(int i=n-2;i>=0;i--){
+            rightMax[i]=Math.max(rightMax[i+1],nums[i]);
         }
-        Arrays.sort(indices, (i, j) -> nums[i] != nums[j] ? nums[i] - nums[j] : i - j);
-
-        int min_ind = nums.length;
-        int max = 0;
-        for (int i : indices) {
-            max = Math.max(max, i - min_ind);
-            min_ind = Math.min(min_ind, i);
+        int left=0;
+        int right=0;
+        int ans=0;
+        while(right<n){
+            while(left<right && nums[left]>rightMax[right]){
+                left++;
+            }
+            ans=Math.max(ans,right-left);
+            right++;
         }
-        return max;
+        return ans;
     }
 }
