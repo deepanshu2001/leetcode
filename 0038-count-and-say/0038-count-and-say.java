@@ -1,31 +1,31 @@
 class Solution {
+    StringBuilder ans=new StringBuilder();
+    public void f(int n){
+        if(n==2){
+            ans.append("11");
+            return;
+        }
+        f(n-1);
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<ans.length();i++){
+            int j=i;
+            int cnt=0;
+            while(j<ans.length() && ans.charAt(i)==ans.charAt(j)){
+                cnt++;
+                j++;
+            }
+            i=j-1;
+            sb.append(cnt);
+            sb.append(ans.charAt(i));
+        }
+        ans.delete(0,ans.length());
+        ans.append(sb);
+    }
     public String countAndSay(int n) {
-        if (n == 1) {
+        if(n==1){
             return "1";
         }
-        StringBuilder s = new StringBuilder();
-        s.append("1");
-        
-        for (int i = 2; i <= n; i++) {
-            int k = 0;
-            StringBuilder sb = new StringBuilder();
-            
-            while (k < s.length()) {
-                int cnt = 1;
-                int j = k + 1;
-                while (j < s.length() && s.charAt(k) == s.charAt(j)) {
-                    cnt++;
-                    j++;
-                }
-                sb.append(cnt);
-                sb.append(s.charAt(k));
-                k = j; // Move to the next group
-            }
-            
-            // Update `s` after processing the entire sequence
-            s = sb;
-        }
-        
-        return s.toString();
+        f(n);
+        return ans.toString();
     }
 }
