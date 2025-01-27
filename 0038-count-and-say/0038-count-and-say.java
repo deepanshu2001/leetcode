@@ -1,31 +1,26 @@
 class Solution {
-    StringBuilder ans=new StringBuilder();
-    public void f(int n){
-        if(n==2){
-            ans.append("11");
-            return;
-        }
-        f(n-1);
-        StringBuilder sb=new StringBuilder();
-        for(int i=0;i<ans.length();i++){
-            int j=i;
-            int cnt=0;
-            while(j<ans.length() && ans.charAt(i)==ans.charAt(j)){
-                cnt++;
-                j++;
-            }
-            i=j-1;
-            sb.append(cnt);
-            sb.append(ans.charAt(i));
-        }
-        ans.delete(0,ans.length());
-        ans.append(sb);
-    }
     public String countAndSay(int n) {
-        if(n==1){
+        if (n == 1) {
             return "1";
         }
-        f(n);
-        return ans.toString();
+        StringBuilder sb = new StringBuilder("1");
+
+        for (int k = 2; k <= n; k++) {
+            StringBuilder temp = new StringBuilder();
+            int i = 0;
+
+            while (i < sb.length()) {
+                char currentChar = sb.charAt(i);
+                int count = 0;
+                while (i < sb.length() && sb.charAt(i) == currentChar) {
+                    count++;
+                    i++;
+                }
+                temp.append(count);
+                temp.append(currentChar);
+            }
+            sb = temp;
+        }
+        return sb.toString();
     }
 }
