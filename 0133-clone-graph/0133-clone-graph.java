@@ -24,20 +24,19 @@ class Solution {
             return null;
         }
         Map<Node,Node> map=new HashMap<>();
-        return dfs(node,map);
+        return F(node,map);
     }
-    public Node dfs(Node node,Map<Node,Node> map){
+    public Node F(Node node,Map<Node,Node> map){
         Node copy=new Node(node.val);
         map.put(node,copy);
         for(Node nei:node.neighbors){
             if(map.containsKey(nei)){
-                copy.neighbors.add(map.get(nei));
+               copy.neighbors.add(map.get(nei));
             }
             else{
-                Node cloned=dfs(nei,map);
+                Node cloned=F(nei,map);
                 copy.neighbors.add(cloned);
             }
-           
         }
         return copy;
     }
