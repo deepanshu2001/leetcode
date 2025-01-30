@@ -7,8 +7,9 @@ class Solution {
         int elem2=Integer.MIN_VALUE;
         for(int i=0;i<nums.length;i++){
             if(cnt1==0 && nums[i]!=elem2){
-                cnt1++;
                 elem1=nums[i];
+                cnt1++;
+
             }
             else if(cnt2==0 && nums[i]!=elem1){
                 cnt2++;
@@ -16,6 +17,7 @@ class Solution {
             }
             else if(nums[i]==elem1){
                 cnt1++;
+
             }
             else if(nums[i]==elem2){
                 cnt2++;
@@ -25,21 +27,21 @@ class Solution {
                 cnt2--;
             }
         }
+        int c1=0;
+        int c2=0;
         int cnt=nums.length/3;
-        cnt1=0;
-        cnt2=0;
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]==elem1){
-                cnt1++;
+        for(int num:nums){
+            if(num==elem1){
+                c1++;
             }
-            if(nums[i]==elem2){
-                cnt2++;
+            else if(num==elem2){
+                c2++;
             }
         }
-        if(cnt1>cnt){
+        if(c1>cnt){
             ans.add(elem1);
         }
-        if(cnt2>cnt){
+        if(c2>cnt){
             ans.add(elem2);
         }
         return ans;
