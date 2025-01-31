@@ -35,7 +35,7 @@ class Solution {
             }
         }
         if(cnt<numCourses){
-            return new int[];
+            return new int[0];
         }
         return ans;
     }
