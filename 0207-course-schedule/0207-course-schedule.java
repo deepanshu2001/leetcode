@@ -13,24 +13,24 @@ class Solution {
                 indegree[it]++;
             }
         }
-        int cnt=0;
-        Queue<Integer> q=new LinkedList<>();
-        for(int i=0;i<numCourses;i++){
+        Queue<Integer> queue=new LinkedList<>();
+         for(int i=0;i<numCourses;i++){
             if(indegree[i]==0){
-              q.add(i);
+                queue.add(i);
             }
         }
-        while(!q.isEmpty()){
-            Integer node=q.remove();
-            cnt++;
-            for(Integer it:adj.get(node)){
+        List<Integer> list=new ArrayList<>();
+        while(!queue.isEmpty()){
+            int node=queue.remove();
+            list.add(node);
+            for(int it:adj.get(node)){
                 indegree[it]--;
                 if(indegree[it]==0){
-                    q.add(it);
+                    queue.add(it);
                 }
             }
         }
-        if(cnt<numCourses){
+        if(list.size()<numCourses){
             return false;
         }
         return true;
