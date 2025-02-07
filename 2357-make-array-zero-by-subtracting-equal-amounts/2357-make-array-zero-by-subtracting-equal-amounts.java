@@ -1,9 +1,7 @@
 class Solution {
     public int minimumOperations(int[] nums) {
         int cnt=0;
-        if(nums.length==1){
-            return cnt;
-        }
+        
         while(true){
             int smallest=Integer.MAX_VALUE;
             boolean allZero=true;
