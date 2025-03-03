@@ -1,6 +1,6 @@
 class Solution {
     public boolean wordPattern(String pattern, String s) {
-        Map<Character,String> map=new HashMap<>();
+        HashMap map=new HashMap();
         String str[]=s.split(" ");
         if(str.length!=pattern.length()){
             return false;
@@ -9,18 +9,14 @@ class Solution {
             char ch=pattern.charAt(i);
             String k=str[i];
             if(!map.containsKey(ch)){
-                map.put(ch,k);
+                map.put(ch,i);
             }
-            else{
-                if(map.get(ch).equals(k)==false){
-                    return false;
-                }
+            if(!map.containsKey(k)){
+                map.put(k,i);
             }
-        }
-        Set<String> set=new HashSet<>();
-        set.addAll(map.values());
-        if(set.size()!=map.size()){
-            return false;
+            if(map.get(ch)!=map.get(k)){
+                return false;
+            }
         }
         return true;
     }
