@@ -5,7 +5,7 @@ class Solution {
         if(str.length!=pattern.length()){
             return false;
         }
-        for(int i=0;i<pattern.length();i++){
+        for(Integer  i=0;i<pattern.length();i++){
             char ch=pattern.charAt(i);
             String k=str[i];
             if(!map.containsKey(ch)){
