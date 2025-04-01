@@ -11,8 +11,19 @@ class Solution {
         return dp[ind]=Math.max(take,nottake);
     }
     public long mostPoints(int[][] questions) {
-        long dp[]=new long[questions.length];
-        Arrays.fill(dp, -1);
-        return f(0,questions,dp);
+       
+        int max=0;
+        for(int i=0;i<questions.length;i++){
+            max=Math.max(max,questions[i][1]);
+        }
+        int n=questions.length;
+         long dp[]=new long[n+max+1];
+        dp[n]=0;
+        for(int i=n-1;i>=0;i--){
+            long take=questions[i][0]+dp[i+questions[i][1]+1];
+            long nottake=dp[i+1];
+            dp[i]=Math.max(take,nottake);
+        }
+        return dp[0];
     }
 }
