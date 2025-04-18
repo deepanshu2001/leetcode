@@ -1,35 +1,36 @@
 public class Codec {
-    StringBuilder sb=new StringBuilder();
+
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
+        StringBuilder sb=new StringBuilder();
         for(String str:strs){
             sb.append(str.replace("/","//")).append("/:");
         }
         return sb.toString();
+
     }
 
     // Decodes a single string to a list of strings.
     public List<String> decode(String s) {
         List<String> ans=new ArrayList<>();
-        int j=0;
+        int i=0;
         StringBuilder sb=new StringBuilder();
-        while(j<s.length()){
-           char ch=s.charAt(j);
-           if(j+1<s.length() && ch=='/' && s.charAt(j+1)=='/'){
-             sb.append(ch);
-             j=j+2;
-           }
-           else if(j+1<s.length() && ch=='/' && s.charAt(j+1)==':'){
-            ans.add(sb.toString());
-            sb=new StringBuilder();
-            j=j+2;
-           }
-           else{
-            sb.append(ch);
-            j++;
-           }
+        while(i<s.length()){
+            char ch=s.charAt(i);
+            if(i+1<s.length() && ch=='/' && s.charAt(i+1)=='/'){
+                sb.append("/");
+                i=i+2;
+            }
+            else if(i+1<s.length()&&ch=='/' && s.charAt(i+1)==':'){
+                ans.add(sb.toString());
+                sb=new StringBuilder();
+                i=i+2;
+            }
+            else{
+                sb.append(ch);
+                i++;
+            }
         }
-      
         return ans;
     }
 }
