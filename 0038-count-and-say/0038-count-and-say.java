@@ -1,26 +1,27 @@
 class Solution {
-    public String countAndSay(int n) {
-        if (n == 1) {
+    public String f(int n){
+        if(n==1){
             return "1";
         }
-        StringBuilder sb = new StringBuilder("1");
-
-        for (int k = 2; k <= n; k++) {
-            StringBuilder temp = new StringBuilder();
-            int i = 0;
-
-            while (i < sb.length()) {
-                char currentChar = sb.charAt(i);
-                int count = 0;
-                while (i < sb.length() && sb.charAt(i) == currentChar) {
-                    count++;
-                    i++;
-                }
-                temp.append(count);
-                temp.append(currentChar);
+        String s=f(n-1);
+        String str="";
+        int i=0;
+        int cnt=1;
+        while(i<s.length()){
+            if(i+1<s.length() && s.charAt(i)==s.charAt(i+1)){
+                cnt++;
+                i++;
             }
-            sb = temp;
+            else{
+                str+=cnt;
+                str+=s.charAt(i);
+                cnt=1;
+                i++;
+            }
         }
-        return sb.toString();
+        return str;
+    }
+    public String countAndSay(int n) {
+        return f(n);
     }
 }
