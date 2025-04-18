@@ -1,27 +1,27 @@
 class Solution {
-    public String f(int n){
+    public String countAndSay(int n) {
         if(n==1){
             return "1";
         }
-        String s=f(n-1);
-        String str="";
-        int i=0;
-        int cnt=1;
-        while(i<s.length()){
-            if(i+1<s.length() && s.charAt(i)==s.charAt(i+1)){
+        String s="1";
+        for(int i=2;i<=n;i++){
+            String str="";
+            int j=0;
+            int cnt=1;
+            while(j<s.length()){
+              if(j+1<s.length() && s.charAt(j)==s.charAt(j+1)){
                 cnt++;
-                i++;
-            }
-            else{
+                j++;
+              }
+              else{
                 str+=cnt;
-                str+=s.charAt(i);
+                str+=s.charAt(j);
                 cnt=1;
-                i++;
+                j++;
+              }
             }
+            s=new String(str);
         }
-        return str;
-    }
-    public String countAndSay(int n) {
-        return f(n);
+        return s;
     }
 }
