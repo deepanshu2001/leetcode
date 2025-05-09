@@ -1,3 +1,5 @@
+
+
 class Solution {
     private Map<Character, String> letters = Map.of(
         '2', "abc",
@@ -9,25 +11,23 @@ class Solution {
         '8', "tuv",
         '9', "wxyz"
     );
-
-    private List<String> ans = new ArrayList<>();
-
-    public List<String> letterCombinations(String digits) {
-        ans.clear(); 
-        if (digits == null || digits.isEmpty()) return ans;
-        Queue<String> q = new LinkedList<>();
-        q.add("");
-        for (char ch : digits.toCharArray()) {
-            String possible_comb = letters.get(ch);
-            int size = q.size();
-            for (int i = 0; i < size; i++) {
-                String comb = q.poll();
-                for (char letter : possible_comb.toCharArray()) {
-                    q.add(comb + letter); 
-                }
-            }
+    List<String> ans=new ArrayList<>();
+    public void f(String s,String digits){
+        if(digits.length()==0){
+            ans.add(s);
+            return;
         }
-        ans.addAll(q);
+        char ch=digits.charAt(0);
+        String str=letters.get(ch);
+        for(int i=0;i<str.length();i++){
+            f(s+str.charAt(i),digits.substring(1));
+        }
+    }
+    public List<String> letterCombinations(String digits) {
+        if(digits.length()==0){
+            return ans;
+        }
+        f("",digits);
         return ans;
     }
 }
