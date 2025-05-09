@@ -1,30 +1,23 @@
 class Solution {
-    public boolean solve(String s, String p, int i, int j, Boolean[][] memo) {
-        // Base case
-        if (j == p.length()) {
-            return i == s.length();
+    public boolean solve(String s,String p){
+        //base case
+        if(p.length()==0){
+            return s.length()==0;
         }
-
-        // Check memoization
-        if (memo[i][j] != null) {
-            return memo[i][j];
+        boolean flag=false;
+        if(s.length()>0 && (s.charAt(0)==p.charAt(0)||p.charAt(0)=='.')){
+            flag=true;
         }
-
-        boolean flag = (i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'));
-
-        if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
-            boolean notake = solve(s, p, i, j + 2, memo); // Skip the '*' pattern
-            boolean take = flag && solve(s, p, i + 1, j, memo); // Use the current character
-            memo[i][j] = take || notake; // Store the result in memo
-        } else {
-            memo[i][j] = flag && solve(s, p, i + 1, j + 1, memo); // Move both pointers
+        if(p.length()>1 && p.charAt(1)=='*'){
+            boolean notake=solve(s,p.substring(2));
+            boolean take=flag && solve(s.substring(1),p);
+            return take||notake;
         }
-
-        return memo[i][j];
+        else{
+            return flag && solve(s.substring(1),p.substring(1));
+        }
     }
-
     public boolean isMatch(String s, String p) {
-        Boolean[][] memo = new Boolean[s.length() + 1][p.length() + 1];
-        return solve(s, p, 0, 0, memo);
+        return solve(s,p);
     }
 }
