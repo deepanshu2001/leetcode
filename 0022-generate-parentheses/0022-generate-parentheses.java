@@ -1,23 +1,20 @@
 class Solution {
-    public void f(List<String> ans,int n,int left_count,int right_count,String curString){
-        if(curString.length()==2*n){
-            ans.add(curString);
+    List<String> ans=new ArrayList<>();
+    public void f(int l,int r,int n,String s){
+        if(l==n && r==n){
+            ans.add(s);
             return;
         }
-        if(left_count<n){
-            curString+="(";
-            f(ans,n,left_count+1,right_count,curString);
-            curString=curString.substring(0,curString.length()-1);
+        //left
+        if(l<n){
+            f(l+1,r,n,s+'(');
         }
-        if(left_count>right_count){
-            curString+=")";
-            f(ans,n,left_count,right_count+1,curString);
-            curString=curString.substring(0,curString.length()-1);
+        if(l>r){
+            f(l,r+1,n,s+')');
         }
     }
     public List<String> generateParenthesis(int n) {
-        List<String> ans=new ArrayList<>();
-        f(ans,n,0,0,"");
-        return ans;
+       f(0,0,n,"");     
+       return ans;
     }
 }
