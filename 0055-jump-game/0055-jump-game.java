@@ -1,13 +1,25 @@
 class Solution {
-    public boolean canJump(int[] nums) {
-        long max=0;
-        int n=nums.length;
-        for(int i=0;i<n;i++){
-            if(i>max){
-                return false;
-            }
-            max=Math.max(max,i+nums[i]);
+    public boolean f(int ind,int nums[],int dp[]){
+        if(ind>=nums.length-1){
+            dp[ind]=0;
+            return true;
         }
-        return true;
+        if(dp[ind]!=-1){
+            return dp[ind]==0?true:false;
+        }
+        for(int i=ind+1;i<=ind+nums[ind];i++){
+            if(f(i,nums,dp)){
+                dp[ind]=0;
+                return true;
+            }
+        }
+        dp[ind]=1;
+        return false;
+
+    }
+    public boolean canJump(int[] nums) {
+        int dp[]=new int[nums.length+1];
+        Arrays.fill(dp,-1);
+        return f(0,nums,dp);
     }
 }
