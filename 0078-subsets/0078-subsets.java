@@ -1,18 +1,20 @@
 class Solution {
     List<List<Integer>> ans=new ArrayList<>();
-    public void f(int ind,List<Integer> cur,int nums[]){
-        if(ind>=nums.length){
-            ans.add(new ArrayList<>(cur));
+    public void f(int ind,int nums[],List<Integer> temp){
+        if(ind==nums.length){
+            ans.add(new ArrayList<>(temp));
             return;
         }
-        cur.add(nums[ind]);
-        f(ind+1,cur,nums);
-        cur.remove(cur.size()-1);
-        f(ind + 1, cur, nums);
+        //take
+        temp.add(nums[ind]);
+        f(ind+1,nums,temp);
+        //not take;
+        temp.remove(temp.size()-1);
+        f(ind+1,nums,temp);
     }
     public List<List<Integer>> subsets(int[] nums) {
         List<Integer> temp=new ArrayList<>();
-        f(0,temp,nums);
+        f(0,nums,temp);
         return ans;
     }
 }
