@@ -1,42 +1,47 @@
+
+
 class LRUCache {
     class DLL{
-        int key;
-        int val;
-        DLL prev;
-        DLL next;
-        DLL(int key,int val){
-            this.key=key;
-            this.val=val;
-        }
+    int key;
+    int val;
+    DLL next;
+    DLL prev;
+
+    DLL(int key,int val){
+        this.key=key;
+        this.val=val;
     }
-    Map<Integer,DLL> map;
+   }
+
     DLL head;
     DLL tail;
+    int cap;
     int capacity;
-    int size;
+    Map<Integer,DLL> map;
     public LRUCache(int capacity) {
-        map=new HashMap<>();
-        size=0;
-        this.capacity=capacity;
         head=new DLL(0,0);
         tail=new DLL(0,0);
         head.next=tail;
         tail.prev=head;
+        cap=0;
+        map=new HashMap<>();
+        this.capacity=capacity;
     }
     public void remove(DLL node){
         map.remove(node.key);
         node.prev.next=node.next;
         node.next.prev=node.prev;
-        size--;
+        cap--;
     }
     public void insert(DLL node){
-       map.put(node.key,node);
-       DLL head_next=head.next;
-       node.prev=head;
-       head.next=node;
-       node.next=head_next;
-       head_next.prev=node;
-       size++;
+        map.put(node.key,node);
+        DLL head_next=head.next;
+        head.next=node;
+        node.prev=head;
+        node.next=head_next;
+        head_next.prev=node;
+        cap++;
+        
     }
     public int get(int key) {
         if(!map.containsKey(key)){
@@ -52,12 +57,10 @@ class LRUCache {
         if(map.containsKey(key)){
             remove(map.get(key));
         }
-        if(size==capacity){
+        if(capacity==cap){
             remove(tail.prev);
         }
-        
         insert(new DLL(key,value));
-
     }
 }
 
