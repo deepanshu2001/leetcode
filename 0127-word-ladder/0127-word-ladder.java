@@ -1,41 +1,44 @@
 class Solution {
-    class Pair{
+    class PAIR{
         String first;
         int second;
-        public Pair(String first,int second){
+        PAIR(String first,int second){
             this.first=first;
             this.second=second;
         }
     }
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Queue<Pair> q=new LinkedList<>();
-        Set<String> s=new HashSet<>();
-        for(int i=0;i<wordList.size();i++){
-            s.add(wordList.get(i));
+        Set<String> set=new HashSet<>();
+        for(String word:wordList){
+            set.add(word);
         }
-        q.add(new Pair(beginWord,1));
-        if(s.contains(beginWord)){
-            s.remove(beginWord);
+        if(!set.contains(endWord)){
+            return 0;
+        }
+        Queue<PAIR> q=new LinkedList<>();
+        q.add(new PAIR(beginWord,1));
+        if(set.contains(beginWord)){
+            set.remove(beginWord);
         }
         while(!q.isEmpty()){
-            Pair p=q.remove();
-            String word=p.first;
-            int level=p.second;
+            PAIR pair=q.remove();
+            String word=pair.first;
+            int second=pair.second;
             if(word.equals(endWord)){
-                return level;
+                return second;
             }
+            
             for(int i=0;i<word.length();i++){
-                String new_word="";
-                for(char ch='a';ch<='z';ch++){
-                    new_word=word.substring(0,i)+ch+word.substring(i+1);
-                    if(s.contains(new_word)){
-                    q.add(new Pair(new_word,level+1));
-                    s.remove(new_word);
+               String new_word="";
+               for(char ch='a';ch<='z';ch++){
+                new_word=word.substring(0,i)+ch+word.substring(i+1);
+                if(set.contains(new_word)){
+                    q.add(new PAIR(new_word, second+1));
+                    set.remove(new_word);
                 }
-                }
-                
+               }
+
             }
-        
         }
         return 0;
     }
