@@ -1,24 +1,22 @@
 class Solution {
-    public boolean helper(String s,String p,int i,int j,Boolean dp[][]){
-        if(j==p.length()){
-            return i==s.length();
+    public boolean solve(String s,String p){
+        if(p.length()==0){
+            return s.length()==0;
         }
-        if(dp[i][j]!=null){
-            return dp[i][j];
+        boolean flag=false;
+        if(s.length()>0 &&(s.charAt(0)==p.charAt(0)||p.charAt(0)=='.')){
+            flag=true;
         }
-        boolean flag=(i<s.length()&&(s.charAt(i)==p.charAt(j)||p.charAt(j)=='.'));
-        if(j+1<p.length() && p.charAt(j+1)=='*'){
-            boolean nottake=helper(s,p,i,j+2,dp);
-            boolean take=flag && helper(s,p,i+1,j,dp);
-            dp[i][j]=take||nottake;
+        if(p.length()>1 && p.charAt(1)=='*'){
+            boolean nottake=solve(s,p.substring(2));
+            boolean take=flag&&solve(s.substring(1),p);
+            return take||nottake;
         }
         else{
-            dp[i][j]=flag && helper(s, p,i+1,j+1,dp);
+            return flag && solve(s.substring(1),p.substring(1));
         }
-        return dp[i][j];
     }
     public boolean isMatch(String s, String p) {
-        Boolean dp[][]=new Boolean[s.length()+1][p.length()+1];
-        return helper(s,p,0,0,dp);
+        return solve(s,p);
     }
 }
