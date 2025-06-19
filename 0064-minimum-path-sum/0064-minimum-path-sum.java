@@ -1,27 +1,35 @@
 class Solution {
-    public int f(int row,int col,int [][]grid,int m,int n,int dp[][]){
-        if(row==m-1 && col==n-1){
-            return grid[m-1][n-1];
-        }
-        if(row>=m||col>=n){
-            return (int)Math.pow(10,9);
-        }
-        if(dp[row][col]!=-1){
-            return dp[row][col];
-        }
-        int down=0;
-        int right=0;
-        down+=grid[row][col]+f(row+1,col,grid,m,n,dp);
-        right+=grid[row][col]+f(row,col+1,grid,m,n,dp);
-        return dp[row][col]=Math.min(down,right);
-    }
     public int minPathSum(int[][] grid) {
-        int m=grid.length;
-        int n=grid[0].length;
-        int dp[][]=new int[m+1][n+1];
+        int n=grid.length;
+        int m=grid[0].length;
+        int dp[][]=new int[n][m];
         for(int row[]:dp){
             Arrays.fill(row,-1);
         }
-        return f(0,0,grid,m,n,dp);
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(i==0 && j==0){
+                    dp[i][j]=grid[0][0];
+                    continue;
+                }
+                int up=grid[i][j];
+                int left=grid[i][j];
+                if(i>0){
+                    up+=dp[i-1][j];
+                }
+                else{
+                    up+=(int)Math.pow(10,9);
+                }
+                if(j>0){
+                    left+=dp[i][j-1];
+                }
+                else{
+                    left+=(int)Math.pow(10,9);
+                }
+                dp[i][j]=Math.min(up,left);
+            }
+        }
+       return dp[n-1][m-1];
     }
 }
