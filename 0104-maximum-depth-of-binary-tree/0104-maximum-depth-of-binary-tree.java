@@ -14,15 +14,33 @@
  * }
  */
 class Solution {
-    public int f(TreeNode node){
-        if(node==null){
-            return 0;
+    class Pair{
+        TreeNode first;
+        int second;
+        Pair(TreeNode first,int second){
+            this.first=first;
+            this.second=second;
         }
-        int left=f(node.left);
-        int right=f(node.right);
-        return 1+Math.max(left,right);
     }
     public int maxDepth(TreeNode root) {
-        return f(root);
+        Queue<Pair> queue=new LinkedList<>();
+        queue.add(new Pair(root,1));
+        int ans=0;
+        if(root==null){
+            return 0;
+        }
+        while(!queue.isEmpty()){
+            Pair pair=queue.remove();
+            ans=Math.max(ans,pair.second);
+            TreeNode node=pair.first;
+            int level=pair.second;
+            if(node.left!=null){
+                queue.add(new Pair(node.left,level+1));
+            }
+            if(node.right!=null){
+                queue.add(new Pair(node.right,level+1));
+            }
+        }
+        return ans;
     }
 }
