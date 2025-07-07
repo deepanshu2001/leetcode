@@ -23,21 +23,20 @@ class Solution {
         if(node==null){
             return null;
         }
-        Map<Node,Node> map=new HashMap<>();
-        return F(node,map);
-    }
-    public Node F(Node node,Map<Node,Node> map){
-        Node copy=new Node(node.val);
-        map.put(node,copy);
-        for(Node nei:node.neighbors){
-            if(map.containsKey(nei)){
-               copy.neighbors.add(map.get(nei));
-            }
-            else{
-                Node cloned=F(nei,map);
-                copy.neighbors.add(cloned);
+        Map<Node,Node> node_reference=new HashMap<>();
+        Queue<Node> queue=new LinkedList<>();
+        node_reference.put(node,new Node(node.val));
+        queue.add(node);
+        while(!queue.isEmpty()){
+            Node temp=queue.remove();
+            for(Node nei:temp.neighbors){
+                if(!node_reference.containsKey(nei)){
+                    node_reference.put(nei,new Node(nei.val));
+                    queue.add(nei);
+                }
+                node_reference.get(temp).neighbors.add(node_reference.get(nei));
             }
         }
-        return copy;
+        return node_reference.get(node);
     }
 }
