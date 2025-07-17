@@ -4,25 +4,25 @@ class Solution {
         for(int i=0;i<tokens.length;i++){
             String s=tokens[i];
             if(s.equals("+")||s.equals("-")||s.equals("*")||s.equals("/")){
-                int v1=st.pop();
-                int v2=st.pop();
+                int elem1=st.pop();
+                int elem2=st.pop();
                 if(s.equals("+")){
-                    st.push(v2+v1);
+                    st.push(elem2+elem1);
                 }
                 else if(s.equals("-")){
-                    st.push(v2-v1);
+                    st.push(elem2-elem1);
                 }
                 else if(s.equals("*")){
-                    st.push(v2*v1);
+                    st.push(elem2*elem1);
                 }
                 else{
-                    st.push(v2/v1);
+                    st.push(elem2/elem1);
                 }
             }
             else{
                 st.push(Integer.parseInt(s));
             }
         }
-        return st.pop();
+        return st.peek();
     }
 }
