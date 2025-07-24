@@ -7,7 +7,7 @@ class Solution {
         int ind=0;
         while(j<nums.length){
             while(!dq.isEmpty() && nums[j]>dq.peekLast()){
-                dq.removeFirst();
+                dq.removeLast();
             }
             dq.add(nums[j]);
             if(j-i+1==k){
