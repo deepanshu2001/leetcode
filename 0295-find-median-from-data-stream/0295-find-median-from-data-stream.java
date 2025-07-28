@@ -1,14 +1,13 @@
 class MedianFinder {
     PriorityQueue<Integer> pq1;
     PriorityQueue<Integer> pq2;
-
     public MedianFinder() {
         pq1=new PriorityQueue<>(Collections.reverseOrder());
         pq2=new PriorityQueue<>();
     }
     
     public void addNum(int num) {
-        if(pq1.size()==0 || num<=pq1.peek()){
+        if(pq1.size()==0||num<=pq1.peek()){
             pq1.add(num);
         }
         else{
@@ -24,11 +23,9 @@ class MedianFinder {
     
     public double findMedian() {
         if(pq1.size()==pq2.size()){
-            return pq1.peek()/2.0 + pq2.peek()/2.0;
+            return pq1.peek()/2.0+pq2.peek()/2.0;
         }
-        else{
-            return pq1.peek();
-        }
+        return pq1.peek();
     }
 }
 
