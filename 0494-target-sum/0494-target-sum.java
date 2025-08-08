@@ -1,61 +1,28 @@
 public class Solution {
 
-    // Sum of all elements in the array
-    int totalSum;
-
     public int findTargetSumWays(int[] nums, int target) {
-        totalSum = Arrays.stream(nums).sum();
+        int totalSum = Arrays.stream(nums).sum();
+        int[][] dp = new int[nums.length][2 * totalSum + 1];
 
-        int[][] memo = new int[nums.length][2 * totalSum + 1];
-        for (int[] row : memo) {
-            Arrays.fill(row, Integer.MIN_VALUE);
-        }
-        return calculateWays(nums, 0, 0, target, memo);
-    }
+        // Initialize the first row of the DP table
+        dp[0][nums[0] + totalSum] = 1;
+        dp[0][-nums[0] + totalSum] += 1;
 
-    private int calculateWays(
-        int[] nums,
-        int currentIndex,
-        int currentSum,
-        int target,
-        int[][] memo
-    ) {
-        if (currentIndex == nums.length) {
-            // Check if the current sum matches the target
-            if (currentSum == target) {
-                return 1;
-            } else {
-                return 0;
+        // Fill the DP table
+        for (int index = 1; index < nums.length; index++) {
+            for (int sum = -totalSum; sum <= totalSum; sum++) {
+                if (dp[index - 1][sum + totalSum] > 0) {
+                    dp[index][sum + nums[index] + totalSum] += dp[index -
+                        1][sum + totalSum];
+                    dp[index][sum - nums[index] + totalSum] += dp[index -
+                        1][sum + totalSum];
+                }
             }
-        } else {
-            // Check if the result is already computed
-            if (
-                memo[currentIndex][currentSum + totalSum] != Integer.MIN_VALUE
-            ) {
-                return memo[currentIndex][currentSum + totalSum];
-            }
-            // Calculate ways by adding the current number
-            int add = calculateWays(
-                nums,
-                currentIndex + 1,
-                currentSum + nums[currentIndex],
-                target,
-                memo
-            );
-
-            // Calculate ways by subtracting the current number
-            int subtract = calculateWays(
-                nums,
-                currentIndex + 1,
-                currentSum - nums[currentIndex],
-                target,
-                memo
-            );
-
-            // Store the result in memoization table
-            memo[currentIndex][currentSum + totalSum] = add + subtract;
-
-            return memo[currentIndex][currentSum + totalSum];
         }
+
+        // Return the result if the target is within the valid range
+        return Math.abs(target) > totalSum
+            ? 0
+            : dp[nums.length - 1][target + totalSum];
     }
 }
