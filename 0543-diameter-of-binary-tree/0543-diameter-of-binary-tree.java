@@ -14,7 +14,7 @@
  * }
  */
 class Solution {
-    public int maxo=0;
+    int maxo=0;
     public int f(TreeNode node){
         if(node==null){
             return 0;
@@ -25,7 +25,7 @@ class Solution {
         return 1+Math.max(left,right);
     }
     public int diameterOfBinaryTree(TreeNode root) {
-        int h=f(root);
-        return maxo;
+       f(root);
+       return maxo;    
     }
 }
