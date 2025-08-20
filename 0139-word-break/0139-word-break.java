@@ -1,30 +1,24 @@
 class Solution {
-    public boolean f(int ind,String s,Set<String> set,Boolean dp[]){
-        if(ind>=s.length()){
-            return true;
-        }
-        if(set.contains(s)){
-            return true;
-        }
-        if(dp[ind]!=null){
-            return dp[ind];
-        }
-        for(int i=ind+1;i<=s.length();i++){
-            String temp=s.substring(ind,i);
-            if(set.contains(temp) && f(i,s,set,dp)){
-                dp[ind]=true;
-                return true;
-            }
-        }
-        return dp[ind]=false;
-    }
+   
     public boolean wordBreak(String s, List<String> wordDict) {
         Set<String> set=new HashSet<>();
         for(int i=0;i<wordDict.size();i++){
             set.add(wordDict.get(i));
         }
-        Boolean dp[]=new Boolean[s.length()];
-        return f(0,s,set,dp);
+        boolean dp[]=new boolean[s.length()+1];
+        int n=s.length();
+        dp[n]=true;
+        for(int i=n-1;i>=0;i--){
+            for(int j=i+1;j<=n;j++){
+                String temp=s.substring(i,j);
+                if(set.contains(temp) && dp[j]){
+                    dp[i]=true;
+                    
+                }
+            }
+        }
+
+        return dp[0];
 
     }
 }
