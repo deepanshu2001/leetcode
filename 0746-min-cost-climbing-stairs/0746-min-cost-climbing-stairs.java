@@ -1,15 +1,20 @@
 class Solution {
-    public int minCostClimbingStairs(int[] cost) {
-        //space optimiation'
-        int n=cost.length;
-        int prev1=cost[0];
-        int prev2=cost[1];
-        for(int i=2;i<n;i++){
-           int curr=cost[i]+Math.min(prev1,prev2);
-           prev1=prev2;
-           prev2=curr;
+    public int f(int ind,int cost[],int dp[]){
+        if(ind>=cost.length){
+            return 0;
         }
-        return Math.min(prev1,prev2);
+
+        if(dp[ind]!=-1){
+            return dp[ind];
+        }
+        int one_step=cost[ind]+f(ind+1,cost,dp);
+        int two_step=cost[ind]+f(ind+2,cost,dp);
+        return dp[ind]= Math.min(one_step,two_step);
+    }
+    public int minCostClimbingStairs(int[] cost) {
+        int []dp=new int[cost.length+1];
+        Arrays.fill(dp,-1);
+        return Math.min(f(0,cost,dp),f(1,cost,dp));
 
     }
 }
