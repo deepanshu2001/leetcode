@@ -2,7 +2,7 @@ class MyHashMap {
     class Entry{
         int key;
         int val;
-        public Entry(int key,int val){
+        Entry(int key,int val){
             this.key=key;
             this.val=val;
         }
@@ -27,8 +27,8 @@ class MyHashMap {
                 }
             }
             data[bucket].add(new Entry(key,value));
+
         }
-        
     }
     
     public int get(int key) {
@@ -37,32 +37,28 @@ class MyHashMap {
             return -1;
         }
         else{
-            for (Entry entry:data[bucket]){
-            if(entry.key==key){
-                return entry.val;
+            for(Entry entry:data[bucket]){
+                if(entry.key==key){
+                    return entry.val;
+                }
             }
-        }
         }
         return -1;
     }
     
     public void remove(int key) {
         int bucket=key%size;
-        Entry toremove=null;
         if(data[bucket]==null){
             return;
         }
+        Entry toRemove=null;
         for(Entry entry:data[bucket]){
-                if(entry.key==key){
-                    toremove=entry;
-                }
+            if(entry.key==key){
+                toRemove=entry;
+                break;
+            }
         }
-        
-        if(toremove==null){
-            return;
-        }
-        data[bucket].remove(toremove);
-        
+        data[bucket].remove(toRemove);
     }
 }
 
