@@ -14,18 +14,19 @@
  * }
  */
 class Solution {
-    int maxo=0;
+    int maxi=0;
     public int f(TreeNode node){
         if(node==null){
             return 0;
         }
         int left=f(node.left);
         int right=f(node.right);
-        maxo=Math.max(maxo,left+right);
+        maxi=Math.max(maxi,left+right);
         return 1+Math.max(left,right);
     }
     public int diameterOfBinaryTree(TreeNode root) {
-       f(root);
-       return maxo;    
+        int h=f(root);
+       
+        return maxi;
     }
 }
