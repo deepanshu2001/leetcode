@@ -14,55 +14,56 @@
  * }
  */
 class Solution {
-
-    public int amountOfTime(TreeNode root, int start) {
-        Map<Integer, Set<Integer>> map = new HashMap<>();
-        convert(root, 0, map);
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
-        int minute = 0;
-        Set<Integer> visited = new HashSet<>();
-        visited.add(start);
-
-        while (!queue.isEmpty()) {
-            int levelSize = queue.size();
-            while (levelSize > 0) {
-                int current = queue.poll();
-                for (int num : map.get(current)) {
-                    if (!visited.contains(num)) {
-                        visited.add(num);
-                        queue.add(num);
-                    }
-                }
-                levelSize--;
+    Map<TreeNode,TreeNode> parents=new HashMap<>();
+    public TreeNode findNode(TreeNode root,int start){
+        Queue<TreeNode> queue=new LinkedList<>();
+        queue.add(root);
+        TreeNode target=null;
+        while(!queue.isEmpty()){
+            TreeNode node=queue.remove();
+            if(node.val==start){
+                target=node;
             }
-            minute++;
+            if(node.left!=null){
+                parents.put(node.left,node);
+                queue.add(node.left);
+            }
+            if(node.right!=null){
+                parents.put(node.right,node);
+                queue.add(node.right);
+            }
         }
-        return minute - 1;
+        return target;
     }
-
-    public void convert(
-        TreeNode current,
-        int parent,
-        Map<Integer, Set<Integer>> map
-    ) {
-        if (current == null) {
-            return;
+    public int amountOfTime(TreeNode root, int start) {
+        if(root==null){
+            return 0;
         }
-        if (!map.containsKey(current.val)) {
-            map.put(current.val, new HashSet<>());
+        TreeNode startNode=findNode(root,start);
+        Map<TreeNode,Boolean> visited=new HashMap<>();
+        int ans=0;
+        Queue<TreeNode> queue=new LinkedList<>();
+        queue.add(startNode);
+        visited.put(startNode,true);
+        while(!queue.isEmpty()){
+            int size=queue.size();
+            for(int i=0;i<size;i++){
+                TreeNode node=queue.remove();
+                if(node.left!=null && visited.get(node.left)==null){
+                    queue.add(node.left);
+                    visited.put(node.left,true);
+                }
+                if(node.right!=null && visited.get(node.right)==null){
+                    queue.add(node.right);
+                    visited.put(node.right,true);
+                }
+                if(parents.containsKey(node) && visited.get(parents.get(node))==null){
+                    queue.add(parents.get(node));
+                    visited.put(parents.get(node),true);
+                }
+            }
+            ans++;
         }
-        Set<Integer> adjacentList = map.get(current.val);
-        if (parent != 0) {
-            adjacentList.add(parent);
-        }
-        if (current.left != null) {
-            adjacentList.add(current.left.val);
-        }
-        if (current.right != null) {
-            adjacentList.add(current.right.val);
-        }
-        convert(current.left, current.val, map);
-        convert(current.right, current.val, map);
+        return ans-1;
     }
 }
