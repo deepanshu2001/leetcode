@@ -17,7 +17,7 @@ class Solution {
     class Pair{
         TreeNode first;
         int second;
-        public Pair(TreeNode first,int second){
+        Pair(TreeNode first,int second){
             this.first=first;
             this.second=second;
         }
@@ -35,23 +35,23 @@ class Solution {
             int first=0;
             int last=0;
             for(int i=0;i<size;i++){
-                Pair p=queue.remove();
-                TreeNode node=p.first;
-                int curr_id=p.second;
+                Pair pair=queue.remove();
+                TreeNode node=pair.first;
+                int id=pair.second-mmin;
                 if(i==0){
-                   first=curr_id;
+                    first=id;
                 }
                 if(i==size-1){
-                    last=curr_id;
+                    last=id;
                 }
                 if(node.left!=null){
-                    queue.add(new Pair(node.left,2*curr_id+1));
+                    queue.add(new Pair(node.left,id*2+1));
                 }
                 if(node.right!=null){
-                    queue.add(new Pair(node.right,2*curr_id+2));
+                    queue.add(new Pair(node.right,id*2+2));
                 }
             }
-            ans=Math.max(last-first+1,ans);
+            ans=Math.max(ans,last-first+1);
         }
         return ans;
     }
