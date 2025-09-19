@@ -14,23 +14,23 @@
  * }
  */
 class Solution {
-    public TreeNode RecursiveTraversal(int []preorder,int preStart,int preEnd,int inorder[],int inStart,int inEnd,Map<Integer,Integer> inorderIndexMap){
-        if(preStart>preEnd||inStart>inEnd){
+    public TreeNode buildTree(int inStart,int inEnd,int preStart,int preEnd,int []inorder,int []preorder,Map<Integer,Integer> inorderMap){
+        if(inStart>inEnd||preStart>preEnd){
             return null;
         }
         TreeNode root=new TreeNode(preorder[preStart]);
-        int inRoot=inorderIndexMap.get(root.val);
-        int numsleft=inRoot-inStart;
-        root.left=RecursiveTraversal(preorder,preStart+1,preStart+numsleft,inorder,inStart,inRoot-1,inorderIndexMap);
-        root.right=RecursiveTraversal(preorder,preStart+numsleft+1,preEnd,inorder,inRoot+1,inEnd,inorderIndexMap);
+        int inRoot=inorderMap.get(root.val);
+        int numsLeft=inRoot-inStart;
+        root.left=buildTree(inStart,inRoot-1,preStart+1,preStart+numsLeft,inorder,preorder,inorderMap);
+        root.right=buildTree(inRoot+1,inEnd,preStart+numsLeft+1,preEnd,inorder,preorder,inorderMap);
         return root;
     }
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        Map<Integer,Integer> inorderIndexMap=new HashMap<>();
-        for(int iter=0;iter<inorder.length;iter++){
-            inorderIndexMap.put(inorder[iter],iter);
+        Map<Integer,Integer> InorderMap=new HashMap<>();
+        for(int i=0;i<inorder.length;i++){
+            InorderMap.put(inorder[i],i);
         }
-        TreeNode root=RecursiveTraversal(preorder,0,preorder.length-1,inorder,0,inorder.length-1,inorderIndexMap);
+        TreeNode root=buildTree(0,inorder.length-1,0,preorder.length-1,inorder,preorder,InorderMap);
         return root;
     }
 }
