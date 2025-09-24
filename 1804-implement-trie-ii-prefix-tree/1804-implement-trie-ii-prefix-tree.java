@@ -1,36 +1,40 @@
 class Node{
-    Node links[]=new Node[26];
-    int cp=0;
+    Node []links=new Node[26];
     int ew=0;
+    int cp=0;
+    Node(){
+
+    }
     public boolean containsKey(char ch){
         return links[ch-'a']!=null;
-    }
-    public void put(char ch,Node node){
-        links[ch-'a']=node;
     }
     public Node get(char ch){
         return links[ch-'a'];
     }
-    public void increasePrefix(){
-        cp++;
+    public void put(char ch,Node node){
+        links[ch-'a']=node;
     }
-    public void increaseEnd(){
+    public void incrementEnd(){
         ew++;
     }
-    public int getendWith(){
-        return ew;
-    }
-    public void reducePrefix(){
-        cp--;
-    }
-    public void reduceEnd(){
+    public void decrementEnd(){
         ew--;
     }
+    public void incrementPrefix(){
+        cp++;
+    }
+    public void decrementPrefix(){
+        cp--;
+    }
+    public int getEndsWith(){
+        return ew;
+    }
 }
+
 class Trie {
-    private Node root;
+    Node root;
     public Trie() {
-       root=new Node();
+        root=new Node();
     }
     
     public void insert(String word) {
@@ -41,10 +45,9 @@ class Trie {
                 node.put(ch,new Node());
             }
             node=node.get(ch);
-            node.increasePrefix();
+            node.incrementPrefix();
         }
-        node.increaseEnd();
-
+        node.incrementEnd();
     }
     
     public int countWordsEqualTo(String word) {
@@ -56,20 +59,17 @@ class Trie {
             }
             node=node.get(ch);
         }
-       
-        return node.getendWith();
+        return node.getEndsWith();
     }
     
     public int countWordsStartingWith(String prefix) {
         Node node=root;
         for(int i=0;i<prefix.length();i++){
             char ch=prefix.charAt(i);
-            if(node.containsKey(ch)){
-                node=node.get(ch);
-            }
-            else{
+            if(!node.containsKey(ch)){
                 return 0;
             }
+            node=node.get(ch);
         }
         return node.cp;
     }
@@ -78,16 +78,13 @@ class Trie {
         Node node=root;
         for(int i=0;i<word.length();i++){
             char ch=word.charAt(i);
-            if(node.containsKey(ch)){
-                node=node.get(ch);
-                node.reducePrefix();
-            }
-            else{
+            if(!node.containsKey(ch)){
                 return;
             }
+            node=node.get(ch);
+            node.decrementPrefix();
         }
-        node.reduceEnd();
-
+        node.decrementEnd();
     }
 }
 
