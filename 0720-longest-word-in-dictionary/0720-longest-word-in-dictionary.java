@@ -28,7 +28,7 @@ class Solution {
         }
         public void insert(String word){
             Node node=root;
-            for(int i=word.length()-1;i>=0;i--){
+            for(int i=0;i<word.length();i++){
                 char ch=word.charAt(i);
                 if(!node.containsKey(ch)){
                     node.put(ch,new Node());
@@ -39,7 +39,7 @@ class Solution {
         }
         public boolean containsWord(String word){
             Node node=root;
-            for(int i=word.length()-1;i>=0;i--){
+            for(int i=0;i<word.length();i++){
                 char ch=word.charAt(i);
                 if(!node.containsKey(ch)){
                     return false;
