@@ -1,47 +1,42 @@
-
-
 class LRUCache {
     class DLL{
-    int key;
-    int val;
-    DLL next;
-    DLL prev;
-
-    DLL(int key,int val){
-        this.key=key;
-        this.val=val;
+        int key;
+        int value;
+        DLL prev;
+        DLL next;
+        DLL(int key,int value){
+            this.key=key;
+            this.value=value;
+        }
     }
-   }
-
     DLL head;
     DLL tail;
-    int cap;
-    int capacity;
-    Map<Integer,DLL> map;
+    int size=0;
+    int cap=0;
+    Map<Integer,DLL> map=new HashMap<>();
     public LRUCache(int capacity) {
+        this.size=0;
+        this.cap=capacity;
         head=new DLL(0,0);
         tail=new DLL(0,0);
         head.next=tail;
         tail.prev=head;
-        cap=0;
-        map=new HashMap<>();
-        this.capacity=capacity;
     }
     public void remove(DLL node){
         map.remove(node.key);
-        node.prev.next=node.next;
-        node.next.prev=node.prev;
-        cap--;
+        DLL prevnode=node.prev;
+        prevnode.next=node.next;
+        node.next.prev=prevnode;
+        node.next=null;
+        node.prev=null;
     }
-    public void insert(DLL node){
+    public void add(DLL node){
         map.put(node.key,node);
-        DLL head_next=head.next;
+        DLL headnext=head.next;
         head.next=node;
         node.prev=head;
-        node.next=head_next;
-        head_next.prev=node;
-        cap++;
-        
+        node.next=headnext;
+        headnext.prev=node;
     }
     public int get(int key) {
         if(!map.containsKey(key)){
@@ -49,18 +44,18 @@ class LRUCache {
         }
         DLL node=map.get(key);
         remove(node);
-        insert(node);
-        return node.val;
+        add(node);
+        return node.value;
     }
     
     public void put(int key, int value) {
         if(map.containsKey(key)){
             remove(map.get(key));
         }
-        if(capacity==cap){
+        else if(map.size()==cap){
             remove(tail.prev);
         }
-        insert(new DLL(key,value));
+        add(new DLL(key,value));
     }
 }
 
