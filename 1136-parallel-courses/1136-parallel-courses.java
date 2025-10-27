@@ -22,19 +22,24 @@ class Solution {
                 queue.add(i);
             }
         }
+        int semester=0;
+        int course=0;
         while(!queue.isEmpty()){
+           int size=queue.size();
+           semester++;
+           for(int i=0;i<size;i++){
             Integer node=queue.remove();
-            ans.add(node);
-            for(int it:adj.get(node)){
+            course++;
+            for(Integer it:adj.get(node)){
                 ind[it]--;
+                
                 if(ind[it]==0){
                     queue.add(it);
                 }
             }
+           }
         }
-        if(ans.size()!=n){
-            return -1;
-        }
-        return n-1;
+        return course==n?semester:-1;
+
     }
 }
