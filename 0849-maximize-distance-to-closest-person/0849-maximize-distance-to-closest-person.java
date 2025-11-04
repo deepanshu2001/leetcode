@@ -4,23 +4,19 @@ class Solution {
         int n=seats.length;
         int left[]=new int[n];
         int right[]=new int[n];
+        int nearest_left=-1;
+        int nearest_right=-1;
         for(int i=0;i<n;i++){
-           int left_seat=-1;
-           int right_seat=-1;
-           for(int j=i;j>=0;j--){
-            if(seats[j]==1){
-                left_seat=j;
-                break;
+          if(seats[i]==1){
+            nearest_left=i;
+          }
+          left[i]=nearest_left;
+        }
+        for(int i=n-1;i>=0;i--){
+            if(seats[i]==1){
+              nearest_right=i;
             }
-           }
-           left[i]=left_seat;
-           for(int j=i;j<n;j++){
-            if(seats[j]==1){
-                right_seat=j;
-                break;
-            }
-           }
-           right[i]=right_seat;
+            right[i]=nearest_right;
         }
         for(int i=0;i<n;i++){
             if(seats[i]==1 ||(left[i]== -1 && right[i]== -1)){
