@@ -1,19 +1,36 @@
+import java.util.*;
+
 class Solution {
+    class Pair {
+        int freq;
+        char ch;
+        Pair(int freq, char ch) {
+            this.freq = freq;
+            this.ch = ch;
+        }
+    }
+
     public int minDeletions(String s) {
-        int freq[]=new int[26];
-        for(int i=0;i<s.length();i++){
-            char ch=s.charAt(i);
-            freq[ch-'a']++;
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
         }
-        Set<Integer> set=new HashSet<>();
-        int cnt=0;
-        for(int i=0;i<26;i++){
-            while(freq[i]>0 && set.contains(freq[i])){
-                freq[i]--;
-                cnt++;
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for (int freq : map.values()) {
+            pq.add(freq);
+        }
+
+        int deletions = 0;
+
+        while (pq.size() > 1) {
+            int top = pq.poll();
+            if (top == pq.peek()) { // duplicate frequency
+                if (top - 1 > 0) pq.add(top - 1);
+                deletions++;
             }
-            set.add(freq[i]);
         }
-        return cnt;
+
+        return deletions;
     }
 }
