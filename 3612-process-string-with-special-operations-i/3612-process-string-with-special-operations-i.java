@@ -1,27 +1,41 @@
 class Solution {
     public String processStr(String s) {
-        String ans="";
-        for(int i=0;i<s.length();i++){
-            char ch=s.charAt(i);
-            if(ch=='*'){
-                if(ans.length()>0){
-                    ans=ans.substring(0,ans.length()-1);
+        Deque<Character> dq = new ArrayDeque<>();
+        boolean reversed = false;
+
+        for (char ch : s.toCharArray()) {
+            if (ch == '*') {
+                if (!dq.isEmpty()) {
+                    if (!reversed) dq.removeLast();
+                    else dq.removeFirst();
                 }
-            }
-            else if(ch=='#'){
-                ans=ans+ans;
-            }
-            else if(ch=='%'){
-                String k="";
-                for(int j=ans.length()-1;j>=0;j--){
-                   k+=ans.charAt(j);
+            } 
+            else if (ch == '%') {
+                reversed = !reversed;
+            } 
+            else if (ch == '#') {
+                // Lazy doubling using list snapshot
+                int size = dq.size();
+                List<Character> snapshot = new ArrayList<>(dq);
+                if (reversed) Collections.reverse(snapshot);
+                for (char c : snapshot) {
+                    if (!reversed) dq.addLast(c);
+                    else dq.addFirst(c);
                 }
-                ans=new String(k);
-            }
-            else{
-                ans+=ch;
+            } 
+            else {
+                if (!reversed) dq.addLast(ch);
+                else dq.addFirst(ch);
             }
         }
-        return ans;
+
+        StringBuilder ans = new StringBuilder();
+        if (!reversed) {
+            for (char c : dq) ans.append(c);
+        } else {
+            while (!dq.isEmpty()) ans.append(dq.removeLast());
+        }
+
+        return ans.toString();
     }
 }
