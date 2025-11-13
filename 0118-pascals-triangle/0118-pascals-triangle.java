@@ -1,6 +1,9 @@
 class Solution {
     public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> ans=new ArrayList<>();
+        if(numRows==0){
+            return ans;
+        }
         List<Integer> temp=new ArrayList<>();
         temp.add(1);
         ans.add(new ArrayList<>(temp));
@@ -9,18 +12,16 @@ class Solution {
         }
         temp.add(1);
         ans.add(new ArrayList<>(temp));
-        if(numRows==2){
-            return ans;
-        }
         for(int i=2;i<numRows;i++){
-          List<Integer> curr=new ArrayList<>();
-          curr.add(1);
-          List<Integer> prev=ans.get(i-1);
-          for(int j=0;j<prev.size()-1;j++){
-            curr.add(prev.get(j)+prev.get(j+1));
-          }
-          curr.add(1);
-          ans.add(new ArrayList<>(curr));
+            List<Integer> list=ans.get(i-1);
+            List<Integer> new_list=new ArrayList<>();
+            new_list.add(1);
+            for(int j=0;j<list.size()-1;j++){
+                new_list.add(list.get(j)+list.get(j+1));
+            }
+            new_list.add(1);
+            ans.add(new ArrayList<>(new_list));
+
         }
         return ans;
     }
