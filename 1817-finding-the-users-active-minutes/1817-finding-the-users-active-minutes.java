@@ -23,8 +23,10 @@ class Solution {
                 curr_time=logs[i][1];
             }
         }
+       
+          ans[cnt-1]++;
         
-        ans[cnt-1]++;
+        
         
         return ans;
        
