@@ -1,36 +1,24 @@
 class Solution {
     public int totalFruit(int[] fruits) {
+        int n=fruits.length;
+        Set<Integer> set=new HashSet<>();
+        int cnt_arr[]=new int[n];
         int i=0;
         int j=0;
         int ans=0;
-        int k=2;
-        Map<Integer,Integer> map=new HashMap<>();
-        while(j<fruits.length){
-            map.put(fruits[j], map.getOrDefault(fruits[j], 0) + 1);
-            if(map.size()<k){
-                j++;
-            }
-            else if(map.size()==k){
-                ans=Math.max(j-i+1,ans);
-                j++;
-            }
-            else if(map.size()>k){
-                while(map.size()>k){
-                    map.put(fruits[i],map.get(fruits[i])-1);
-                    if(map.get(fruits[i])==0){
-                        map.remove(fruits[i]);
-                    }
-                    i++;
+        while(j<n){
+            cnt_arr[fruits[j]]++;
+            set.add(fruits[j]);
+            if(set.size()>2){
+                cnt_arr[fruits[i]]--;
+                if(cnt_arr[i]==0){
+                    set.remove(fruits[i]);
                 }
-                j++;
+                i++;
             }
-            
+            ans=Math.max(ans,j-i+1);
+            j++;
         }
-        int sum=0;
-        for(Map.Entry<Integer,Integer> m:map.entrySet()){
-               int value=m.getValue();
-               sum+=value;
-            }
-        return Math.max(ans,sum);
+        return ans;
     }
 }
