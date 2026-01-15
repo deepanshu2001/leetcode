@@ -1,42 +1,45 @@
 class LRUCache {
     class DLL{
         int key;
-        int value;
-        DLL prev;
+        int val;
         DLL next;
-        DLL(int key,int value){
+        DLL prev;
+        DLL(int key,int val){
             this.key=key;
-            this.value=value;
+            this.val=val;
         }
     }
     DLL head;
     DLL tail;
-    int size=0;
-    int cap=0;
+    int capacity;
+    int size;
     Map<Integer,DLL> map=new HashMap<>();
     public LRUCache(int capacity) {
-        this.size=0;
-        this.cap=capacity;
-        head=new DLL(0,0);
-        tail=new DLL(0,0);
+        this.head=new DLL(0,0);
+        this.tail=new DLL(0,0);
         head.next=tail;
         tail.prev=head;
+        this.capacity=capacity;
+        this.size=0;
+    }
+    public void add(DLL node){
+        DLL headNext=head.next;
+        head.next=node;
+        node.prev=head;
+        node.next=headNext;
+        headNext.prev=node;
+        map.put(node.key,node);
+        size++;
     }
     public void remove(DLL node){
         map.remove(node.key);
-        DLL prevnode=node.prev;
-        prevnode.next=node.next;
-        node.next.prev=prevnode;
+        DLL prevNode=node.prev;
+        DLL nextNode=node.next;
+        prevNode.next=nextNode;
+        nextNode.prev=prevNode;
         node.next=null;
         node.prev=null;
-    }
-    public void add(DLL node){
-        map.put(node.key,node);
-        DLL headnext=head.next;
-        head.next=node;
-        node.prev=head;
-        node.next=headnext;
-        headnext.prev=node;
+        size--;
     }
     public int get(int key) {
         if(!map.containsKey(key)){
@@ -45,17 +48,18 @@ class LRUCache {
         DLL node=map.get(key);
         remove(node);
         add(node);
-        return node.value;
+        return node.val;
     }
     
     public void put(int key, int value) {
+        DLL node=new DLL(key,value);
         if(map.containsKey(key)){
-            remove(map.get(key));
+            remove(node);
         }
-        else if(map.size()==cap){
+        if(size==capacity){
             remove(tail.prev);
         }
-        add(new DLL(key,value));
+        add(node);
     }
 }
 
