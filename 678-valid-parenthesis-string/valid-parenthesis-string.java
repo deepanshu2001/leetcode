@@ -1,34 +1,32 @@
 class Solution {
     public boolean checkValidString(String s) {
-        Stack<Integer> open = new Stack<>();
-        Stack<Integer> star = new Stack<>();
-
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-
-            if (ch == '(') {
-                open.push(i);
-            } else if (ch == '*') {
-                star.push(i);
+        int openCount = 0;
+        int closeCount = 0;
+        int length = s.length() - 1;
+        
+        // Traverse the string from both ends simultaneously
+        for (int i = 0; i <= length; i++) {
+            // Count open parentheses or asterisks
+            if (s.charAt(i) == '(' || s.charAt(i) == '*') {
+                openCount++;
             } else {
-                if (!open.isEmpty()) {
-                    open.pop();
-                } else if (!star.isEmpty()) {
-                    star.pop();
-                } else {
-                    return false;
-                }
+                openCount--;
             }
-        }
-
-        while (!open.isEmpty() && !star.isEmpty()) {
-            if (open.peek() > star.peek()) {
+            
+            // Count close parentheses or asterisks
+            if (s.charAt(length - i) == ')' || s.charAt(length - i) == '*') {
+                closeCount++;
+            } else {
+                closeCount--;
+            }
+            
+            // If at any point open count or close count goes negative, the string is invalid
+            if (openCount < 0 || closeCount < 0) {
                 return false;
             }
-            open.pop();
-            star.pop();
         }
-
-        return open.isEmpty();
+        
+        // If open count and close count are both non-negative, the string is valid
+        return true;
     }
 }
